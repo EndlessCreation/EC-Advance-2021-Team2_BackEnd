@@ -1,0 +1,4 @@
+//for compiling ES2015+ syntax
+{
+    "presets": ["@babel/env"],
+}

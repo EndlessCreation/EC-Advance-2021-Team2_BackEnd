@@ -1,0 +1,70 @@
+{
+    //babel에서 transform된 소스코드를 ESlint에서 허용할 수 있게 해줌.   
+    "parser": "@babel/eslint-parser",
+    // 코드 포맷을 node,prettier로 설정
+    "plugins": [
+      "node",
+      "prettier"
+    ],
+    
+    // eslint의 룰을 기본 권장설정으로 설정
+    "extends": [
+      "eslint:recommended",
+      "plugin:prettier/recommended"
+    ],
+    
+    // 코드를 해석하는 parser에 대한 설정
+    "parserOptions": {
+      // 자바스크립트 버전, 7은 ECMA2016
+      "ecmaVersion": 11,
+      // 모듈 export를 위해 import, export를 사용 가능여부를 설정, script는 사용불가
+      "sourceType": "module",
+      // jsx 허용을 설정, back-end 설정이기 때문에 사용 안함
+      "ecmaFeatures": {
+        "jsx": false
+      },
+      //babelparser거. default는 import랑 export 정의가 program의 top level에서만 가능
+      //true 세팅시에 어디서든 import export가능.
+      "allowImportExportEverywhere": true
+    },
+    
+    // linter가 파일을 분석할 때, 미리 정의된 전역변수에 무엇이 있는지 명시하는 속성
+    "env": {
+      // 브라우저의 document와 같은 객체 사용 여부
+      "browser": false,
+      // node.js에서 console과 같은 전역변수 사용 여부
+      "node": true,
+      //es6
+      "es6": true,
+      //commonjs
+      "commonjs": true
+    },
+    // ESLint가 무시할 디렉토리, 파일을 설정
+    "ignorePatterns": [
+      "node_modules/",
+      "prisma/",
+      "dist",
+    ],
+    
+    // ESLint 룰을 설정 (공식문서에 property 더 많음.)
+    "rules": {
+      // prettier에 맞게 룰을 설정
+      "prettier/prettier": ["error",{
+          "endOfLine": "auto" //주석뒤에 줄바꿈이 있지만 그 앞에 공백이 아닌 문자가 있을때
+      }],
+      "eqeqeq":"error", //=== ,!== 강조
+      "block-scoped-var":"error", //정의된 스코프 안에서만 쓰도록 강제
+      "no-var":"error", //require 'let', const.
+      "prefer-const": "error", //재정의가 안되는 애들은 const 쓰도록함
+      "prefer-arrow-callback": "error",//arrow function callback으로
+      "eol-last": "error",//파일 끝나는 지점에서 공백 허용 안함
+      "no-trailing-spaces":"error",
+      "quotes": [
+        "warn",
+        "single",
+        {
+          "avoidEscape": true
+        }
+      ]
+    }
+}

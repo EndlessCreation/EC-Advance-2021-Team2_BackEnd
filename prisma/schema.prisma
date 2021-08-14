@@ -1,0 +1,72 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique @db.VarChar(20)
+  name         String    @db.VarChar(20)
+  nickname     String    @unique @db.VarChar(15)
+  password     String    @db.VarChar(100)
+  createAt     DateTime  @default(now())
+  updateAt     DateTime? @updatedAt
+  isAdmin      Int       @default(0)
+  phone_number Int       @unique
+  birth        Int
+
+  posts Post[]
+
+  @@map("user")
+}
+
+model Post {
+  id       Int       @id @default(autoincrement())
+  content  String    @db.Text
+  createAt DateTime  @default(now())
+  updateAt DateTime? @updatedAt
+  author   User      @relation(fields: [user_id], references: [id])
+  user_id  Int
+
+
+  image    Image?
+  hashtags PostHashtag[]
+
+  @@map("post")
+}
+
+model Image {
+  id        Int      @id @default(autoincrement())
+  src       String
+  createAt  DateTime @default(now())
+  updateAt  DateTime @updatedAt
+  postImage Post     @relation(fields: [post_id], references: [id])
+  post_id   Int
+
+  @@map("image")
+}
+
+model Hashtag {
+  id           Int           @id @default(autoincrement())
+  name         String        @db.VarChar(20)
+  createAt     DateTime      @default(now())
+  updateAt     DateTime      @updatedAt
+  posthashtags PostHashtag[]
+
+
+  @@map("hash_tag")
+}
+
+model PostHashtag {
+  post        Post    @relation(fields: [post_id], references: [id])
+  post_id     Int
+  hashtag     Hashtag @relation(fields: [hash_tag_id], references: [id])
+  hash_tag_id Int
+
+  @@id([post_id, hash_tag_id])
+  @@map("post_hashtag")
+}
