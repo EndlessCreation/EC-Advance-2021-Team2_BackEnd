@@ -14,7 +14,6 @@ export default passport => {
           if (!result) {
             return done(null, false, { message: '이메일 또는 패스워드가 틀렸습니다.' });
           } else {
-            console.log('hi');
             return done(null, user);
           }
         }

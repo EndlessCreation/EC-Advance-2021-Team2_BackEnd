@@ -16,7 +16,7 @@ model User {
   createAt     DateTime  @default(now())
   updateAt     DateTime? @updatedAt
   isAdmin      Int       @default(0)
-  phone_number Int       @unique
+  phone_number String    @unique @db.VarChar(50)
   birth        Int
 
   posts Post[]

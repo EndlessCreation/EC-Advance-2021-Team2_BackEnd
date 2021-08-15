@@ -49,3 +49,30 @@ export const findUserById = async id => {
     console.error(err);
   }
 };
+
+export const findUserByPhone = async phone_number => {
+  try {
+    return await prisma.user.findUnique({
+      where: {
+        phone_number,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const changeUserPassword = async (id, password) => {
+  try {
+    return await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        password,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
