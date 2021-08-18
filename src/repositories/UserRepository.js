@@ -62,6 +62,18 @@ export const findUserByPhone = async phone_number => {
   }
 };
 
+export const findUserByAccount = async account => {
+  try {
+    return await prisma.user.findUnique({
+      where: {
+        account,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const changeUserPassword = async (id, password) => {
   try {
     return await prisma.user.update({

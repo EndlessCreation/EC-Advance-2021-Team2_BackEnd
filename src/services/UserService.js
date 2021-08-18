@@ -76,20 +76,35 @@ export const checkNickName = async (req, res, next) => {
 //input: {phone_number: ~~}, 이때 번호는 -없이.
 //이미 존재할경우 false
 //존재하지 않을경우 phone_number 반환
-export const checkUserPhoneNum = async (req, res, next) => {
+// export const checkUserPhoneNum = async (req, res, next) => {
+//   try {
+//     if (!req.body) res.status(400).send('Error.');
+//     else {
+//       console.log(req.body);
+//       const user = await UserRepository.findUserByPhone(req.body.phone_number);
+//       if (user) res.send(false);
+//       else {
+//         res.status(200).send(req.body.phone_number);
+//       }
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     next('가입여부 확인 도중 에러가 발생하였습니다. 잠시후 다시 시도해주세요.');
+//   }
+// };
+export const checkUserAccount = async (req, res, next) => {
   try {
-    if (!req.body) res.status(400).send('Error.');
+    if (!req.body) res.status(400).send('Error');
     else {
-      console.log(req.body);
-      const user = await UserRepository.findUserByPhone(req.body.phone_number);
+      const user = await UserRepository.findUserByAccount(req.body.account);
       if (user) res.send(false);
       else {
-        res.status(200).send(req.body.phone_number);
+        res.status(200).send(req.body.account);
       }
     }
   } catch (err) {
     console.error(err);
-    next('가입여부 확인 도중 에러가 발생하였습니다. 잠시후 다시 시도해주세요.');
+    next('중복된 아이디입니다. 다른 아이디를 이용해주세요');
   }
 };
 
@@ -99,11 +114,11 @@ export const checkUserPhoneNum = async (req, res, next) => {
 //이메일 찾기
 //input: {phone_number, name,}
 //성공시 email 반환
-export const findUserEmail = async (req, res, next) => {
+export const findUserAccount = async (req, res, next) => {
   try {
     if (!req.body) res.status(400).send('Error.');
     else {
-      const user = await UserRepository.findUserByPhone(req.body.phone_number);
+      const user = await UserRepository.findUserByEmail(req.body.email);
       if (!user || user.name !== req.body.name) res.send(false);
       else {
         res.status(200).send(user.email);
@@ -120,7 +135,7 @@ export const findUserPassword = async (req, res, next) => {
   try {
     if (!req.body) res.status(400).send('Error.');
     else {
-      const user = await UserRepository.findUserByPhone(req.body.phone_number);
+      const user = await UserRepository.findUserByAccount(req.body.account);
       if (!user || user.email !== req.body.email) res.send(false);
       else {
         //id 받고 이거 토대로 패스워드 변경시 이전값과 동일한지 체크
