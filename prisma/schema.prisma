@@ -9,6 +9,7 @@ generator client {
 
 model User {
   id           Int       @id @default(autoincrement())
+  account      String    @unique @db.VarChar(20)
   email        String    @unique @db.VarChar(20)
   name         String    @db.VarChar(20)
   nickname     String    @unique @db.VarChar(15)
@@ -16,7 +17,7 @@ model User {
   createAt     DateTime  @default(now())
   updateAt     DateTime? @updatedAt
   isAdmin      Int       @default(0)
-  phone_number String    @unique @db.VarChar(50)
+  phone_number String?   @unique @db.VarChar(50)
   birth        Int
 
   posts Post[]
