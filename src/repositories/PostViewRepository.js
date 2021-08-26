@@ -27,7 +27,12 @@ export const getUserPost = async user_id => {
 
 export const getAllPost = async () => {
   try {
-    return await prisma.post.findMany();
+    return await prisma.post.findMany({
+      include: {
+        image: true,
+        hashtags: true,
+      },
+    });
   } catch (err) {
     console.error(err);
   }

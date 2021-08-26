@@ -18,6 +18,23 @@ export const createPost = async (data, user_id) => {
   }
 };
 
+export const createImage = async (post_id, path) => {
+  try {
+    return prisma.image.create({
+      data: {
+        path,
+        postImage: {
+          connect: {
+            id: post_id,
+          },
+        },
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const updatePost = async (content, post_id) => {
   try {
     return await prisma.post.update({
