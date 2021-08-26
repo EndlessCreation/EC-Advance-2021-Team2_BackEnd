@@ -13,11 +13,11 @@ export const getPost = async post_id => {
   }
 };
 
-export const getUserPost = async user_id => {
+export const getUserPost = async user_account => {
   try {
     return await prisma.post.findMany({
       where: {
-        id: user_id,
+        account: user_account,
       },
     });
   } catch (err) {
