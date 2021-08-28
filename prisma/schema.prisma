@@ -42,7 +42,7 @@ model Post {
 
 model Image {
   id        Int      @id @default(autoincrement())
-  src       String
+  path      String
   createAt  DateTime @default(now())
   updateAt  DateTime @updatedAt
   postImage Post     @relation(fields: [post_id], references: [id])
