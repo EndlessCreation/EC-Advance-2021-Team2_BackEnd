@@ -21,5 +21,6 @@ export default passport => {
       done(err);
     }
   });
+
   local(passport);
 };

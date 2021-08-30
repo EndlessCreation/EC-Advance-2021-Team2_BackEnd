@@ -171,6 +171,23 @@ export const changeUserPassword = async (req, res, next) => {
 };
 
 /*
+프론트 유저 확인 로직
+*/
+export const getUserInfo = async (req, res, next) => {
+  try {
+    const profile = await UserRepository.findUserById_getInfo(req.body.id);
+    if (!profile) {
+      res.status(401).send('유저정보가 일치하지않습니다.');
+    } else {
+      res.status(200).send(profile);
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+/*
 로그인, 로그아웃 서비스로직
 */
 export const Login = (req, res, next) => {
@@ -179,14 +196,14 @@ export const Login = (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      return res.status(200).send(info.message);
+      return res.status(401).send(info.message);
     }
     req.logIn(user, err => {
       if (err) {
         console.error(err);
         return next('로그인 도중 에러가 발생하였습니다.');
       }
-      return res.status(200).send(user);
+      return res.status(200).send({ id: user.id, isAdmin: user.isAdmin });
     });
   })(req, res, next);
 };

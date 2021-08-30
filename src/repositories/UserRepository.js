@@ -50,6 +50,25 @@ export const findUserById = async id => {
   }
 };
 
+export const findUserById_getInfo = async id => {
+  try {
+    return await prisma.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        account: true,
+        email: true,
+        name: true,
+        nickname: true,
+        posts: true,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const findUserByPhone = async phone_number => {
   try {
     return await prisma.user.findUnique({
