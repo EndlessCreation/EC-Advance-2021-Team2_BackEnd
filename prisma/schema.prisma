@@ -18,7 +18,6 @@ model User {
   updateAt     DateTime? @updatedAt
   isAdmin      Int       @default(0)
   phone_number String?   @unique @db.VarChar(50)
-  birth        String
 
   posts Post[]
 
