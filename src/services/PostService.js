@@ -32,7 +32,7 @@ export const writePost = async (req, res, next) => {
 export const editPost = async (req, res, next) => {
   try {
     //여긴 나중에 req.params.postid로 바꿀것.
-    const post = await PostRepository.updatePost(req.body.content, req.body.post_id);
+    const post = await PostRepository.updatePost(req.body);
     if (!post) {
       return res.send('게시글을 수정하는 도중 오류가 발생하였습니다.');
     } else {

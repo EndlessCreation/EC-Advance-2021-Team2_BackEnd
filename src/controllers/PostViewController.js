@@ -3,8 +3,7 @@ import * as PostViewService from '../services/PostViewService';
 
 const router = express.Router();
 
-router.get('/one', PostViewService.getPost);
-router.get('/all', PostViewService.getAllPost);
-router.get('/user', PostViewService.getUserPost);
-
+router.get('/', PostViewService.getAllPost);
+router.get('/:account', PostViewService.getUserPost);
+router.get('/one/:post_id', PostViewService.getPost);
 export default router;

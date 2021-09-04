@@ -35,14 +35,15 @@ export const createImage = async (post_id, path) => {
   }
 };
 
-export const updatePost = async (content, post_id) => {
+//미완성. 수정필요
+export const updatePost = async data => {
   try {
     return await prisma.post.update({
       where: {
-        id: post_id,
+        id: data.post_id,
       },
       data: {
-        content: content,
+        content: data.content,
       },
     });
   } catch (err) {
@@ -50,6 +51,7 @@ export const updatePost = async (content, post_id) => {
   }
 };
 
+//미완성. 수정필요
 export const deletePost = async post_id => {
   try {
     return await prisma.post.delete({
