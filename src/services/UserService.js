@@ -121,7 +121,7 @@ export const findUserAccount = async (req, res, next) => {
       const user = await UserRepository.findUserByEmail(req.body.email);
       if (!user || user.name !== req.body.name) res.send(false);
       else {
-        res.status(200).send(user.email);
+        res.status(200).send(user.account);
       }
     }
   } catch (err) {
@@ -130,7 +130,7 @@ export const findUserAccount = async (req, res, next) => {
   }
 };
 //패스워드 찾기
-//input: {phone_number, email,}
+//input: {name,account,email}
 export const findUserPassword = async (req, res, next) => {
   try {
     if (!req.body) res.status(400).send('Error.');

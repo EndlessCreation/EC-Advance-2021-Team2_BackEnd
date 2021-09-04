@@ -1,5 +1,6 @@
 import express from 'express';
 import * as Auth from '../../middleware/auth';
+import * as Transfer from '../../middleware/findPassword';
 import * as UserService from '../services/UserService';
 
 const router = express.Router();
@@ -20,5 +21,6 @@ router.post('/get_user', Auth.isLoggined, UserService.getUserInfo);
 //아이디,비밀번호찾기
 router.post('/find/email', Auth.isNotLoggined, UserService.findUserAccount);
 router.post('/find/password', Auth.isNotLoggined, UserService.findUserPassword);
+router.post('/find/transfer', Auth.isNotLoggined, Transfer.transferPassword);
 router.post('/find/changepw', Auth.isNotLoggined, UserService.changeUserPassword);
 export default router;

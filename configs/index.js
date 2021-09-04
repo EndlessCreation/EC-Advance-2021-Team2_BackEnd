@@ -14,4 +14,6 @@ export default {
   PORT: Number(env.PORT),
   COOKIE_SECRET: env.COOKIE_SECRET,
   DBPASSWORD: env.DBPASSWORD,
+  MAILID: env.MAILID,
+  MAILPASSWORD: env.MAILPASSWORD,
 };
