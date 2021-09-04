@@ -12,7 +12,8 @@
     "multer": "^1.4.3",
     "nodemailer": "^6.6.3",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "randomstring": "^1.2.1"
   },
   "name": "ec-advance-2021-team2_backend",
   "description": "",

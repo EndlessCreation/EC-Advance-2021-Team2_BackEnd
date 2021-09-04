@@ -20,7 +20,6 @@ router.post('/get_user', Auth.isLoggined, UserService.getUserInfo);
 
 //아이디,비밀번호찾기
 router.post('/find/email', Auth.isNotLoggined, UserService.findUserAccount);
-router.post('/find/password', Auth.isNotLoggined, UserService.findUserPassword);
-router.post('/find/transfer', Auth.isNotLoggined, Transfer.transferPassword);
-router.post('/find/changepw', Auth.isNotLoggined, UserService.changeUserPassword);
+router.post('/find/password', Auth.isNotLoggined, UserService.findUserPassword, Transfer.transferPassword);
+router.post('/find/changepw', Auth.isLoggined, UserService.changeUserPassword);
 export default router;

@@ -136,10 +136,10 @@ export const findUserPassword = async (req, res, next) => {
     if (!req.body) res.status(400).send('Error.');
     else {
       const user = await UserRepository.findUserByAccount(req.body.account);
-      if (!user || user.email !== req.body.email) res.send(false);
+      if (!user || user.email !== req.body.email || user.phone_number !== req.body.phone_number) res.send(false);
       else {
         //id 받고 이거 토대로 패스워드 변경시 이전값과 동일한지 체크
-        res.status(200).send({ id: user.id });
+        next();
       }
     }
   } catch (err) {
@@ -154,13 +154,21 @@ export const changeUserPassword = async (req, res, next) => {
     if (!req.body) res.status(400).send('Error.');
     else {
       const user = await UserRepository.findUserById(req.body.id);
+      //유저가 입력한 비밀번호가 현재 비밀번호와 일치하는지
+      const result = await bcrypt.compare(req.body.existing_password, user.password);
+      if (!result) {
+        res.send('현재 비밀번호가 일치하지 않습니다.');
+      }
       //비밀번호를 이전과 동일하게 설정한 경우.
-      const isSame = await bcrypt.compare(req.body.password, user.password);
+      const isSame = await bcrypt.compare(req.body.new_password, user.password);
       if (isSame) {
         res.send('비밀번호는 이전과 다르게 해주세요.');
+      } else if (req.body.check_password !== req.body.new_password) {
+        //바꿀 비밀번호가 다르게 적힌경우
+        res.send('변경할 비밀번호가 일치하지 않습니다. 다시 확인해주세요');
       } else {
-        req.body.password = await bcrypt.hash(req.body.password, 12);
-        await UserRepository.changeUserPassword(req.body.id, req.body.password);
+        req.body.new_password = await bcrypt.hash(req.body.new_password, 12);
+        await UserRepository.changeUserPassword(req.body.id, req.body.new_password);
         res.status(200).send(true);
       }
     }
