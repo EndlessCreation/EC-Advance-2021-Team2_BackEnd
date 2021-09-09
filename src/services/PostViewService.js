@@ -31,6 +31,7 @@ export const getUserPost = async (req, res, next) => {
 //모든 게시물 보기
 export const getAllPost = async (req, res, next) => {
   try {
+    console.log(req.session);
     const allPost = await PostViewRepository.getAllPost();
     if (!allPost) {
       res.send('아직 게시글이 존재하지 않습니다.');

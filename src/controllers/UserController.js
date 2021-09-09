@@ -16,7 +16,7 @@ router.post('/login', Auth.isNotLoggined, UserService.Login);
 router.get('/logout', Auth.isLoggined, UserService.Logout);
 
 //유저 정보 체크
-router.post('/get_user', Auth.isLoggined, UserService.getUserInfo);
+router.get('/get_user', Auth.isLoggined, UserService.getUserInfo);
 
 //아이디,비밀번호찾기
 router.post('/find/email', Auth.isNotLoggined, UserService.findUserAccount);

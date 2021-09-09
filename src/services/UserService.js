@@ -183,7 +183,8 @@ export const changeUserPassword = async (req, res, next) => {
 */
 export const getUserInfo = async (req, res, next) => {
   try {
-    const profile = await UserRepository.findUserById_getInfo(req.body.id);
+    const user = req.session.passport.user;
+    const profile = await UserRepository.findUserById_getInfo(user.id);
     if (!profile) {
       res.status(401).send('유저정보가 일치하지않습니다.');
     } else {

@@ -17,7 +17,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(env.Cookie_SECRET));
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
-console.log(env.COOKIE_SECRET);
 
 app.use(
   session({
