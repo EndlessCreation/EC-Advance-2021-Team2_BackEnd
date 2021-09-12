@@ -18,24 +18,6 @@ export const createPost = async (data, user_id) => {
   }
 };
 
-export const createImage = async (post_id, path) => {
-  try {
-    return prisma.image.create({
-      data: {
-        path,
-        postImage: {
-          connect: {
-            id: post_id,
-          },
-        },
-      },
-    });
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-//미완성. 수정필요
 export const updatePost = async data => {
   try {
     return await prisma.post.update({
@@ -51,12 +33,29 @@ export const updatePost = async data => {
   }
 };
 
-//미완성. 수정필요
 export const deletePost = async post_id => {
   try {
     return await prisma.post.delete({
       where: {
         id: post_id,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getPost = async post_id => {
+  try {
+    return await prisma.post.findUnique({
+      where: {
+        id: post_id,
+      },
+      select: {
+        id: true,
+        image: true,
+        content: true,
+        createAt: true,
       },
     });
   } catch (err) {

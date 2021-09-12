@@ -3,8 +3,7 @@ import path from 'path';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log(file);
-    cb(null, './images');
+    cb(null, __dirname + '/../images');
   },
   filename: (req, file, cb) => {
     //extname: 확장자 추출

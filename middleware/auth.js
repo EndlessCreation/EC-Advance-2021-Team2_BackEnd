@@ -1,6 +1,5 @@
 export const isLoggined = (req, res, next) => {
   if (req.isAuthenticated()) {
-    console.log(req);
     next();
   } else {
     res.status(400).send('잘못된 접근입니다.');

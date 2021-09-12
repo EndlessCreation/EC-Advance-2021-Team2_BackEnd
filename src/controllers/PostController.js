@@ -5,6 +5,6 @@ import * as PostService from '../services/PostService';
 const router = express.Router();
 
 router.post('/upload', Auth.isLoggined, UploadImage.single('file'), PostService.writePost);
-router.post('/edit', Auth.isLoggined, PostService.editPost);
+router.post('/edit', Auth.isLoggined, UploadImage.single('file'), PostService.editPost);
 router.post('/delete', Auth.isLoggined, PostService.deletePost);
 export default router;
