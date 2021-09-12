@@ -44,8 +44,8 @@ model Image {
   path      String
   createAt  DateTime @default(now())
   updateAt  DateTime @updatedAt
-  postImage Post     @relation(fields: [post_id], references: [id])
-  post_id   Int
+  postImage Post?    @relation(fields: [post_id], references: [id])
+  post_id   Int?
 
   @@map("image")
 }
