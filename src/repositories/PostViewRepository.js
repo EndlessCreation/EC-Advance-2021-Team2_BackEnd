@@ -52,3 +52,57 @@ export const getAllPost = async () => {
     console.error(err);
   }
 };
+
+export const getRecentPost = async data => {
+  try {
+    console.log(data);
+    return await prisma.post.findMany({
+      take: 4,
+      where: {
+        user_id: data.user_id,
+      },
+      orderBy: {
+        createAt: 'desc',
+      },
+      include: {
+        image: true,
+        hashtags: true,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getPostInPeriod = async data => {
+  try {
+    return prisma.post.findMany({
+      where: {
+        hashtags: {
+          data: data.hashtags,
+        },
+        createAt: {
+          gte: data.maximum_date,
+          lte: data.minimum_date,
+        },
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// export const getCurrentPost = async() => {
+//   try{
+//     return await
+//   }catch(err){
+//     console.error(err);
+//   }
+// }
+// export const getCurrentPost = async() => {
+//   try{
+//     return await
+//   }catch(err){
+//     console.error(err);
+//   }
+// }

@@ -1,3 +1,5 @@
+import { findUserByAccount } from '../src/repositories/UserRepository';
+
 export const isLoggined = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
@@ -19,5 +21,22 @@ export const isAdministrator = (req, res, next) => {
     next();
   } else {
     res.status(400).send('관리자가 아니면 접근할 수 없습니다.');
+  }
+};
+
+export const checkUserWhenGet = async (req, res, next) => {
+  try {
+    const sessionUser = req.session.passport.user.id;
+    if (req.params.user_id !== undefined && parseInt(req.params.user_id) === sessionUser) return next();
+    else if (req.params.account !== undefined) {
+      const user = await findUserByAccount(req.params.account);
+      if (user.id === sessionUser) {
+        console.log('hi');
+        return next();
+      }
+    }
+    return res.status(400).send('잘못된 요청입니다.');
+  } catch (err) {
+    console.error(err);
   }
 };

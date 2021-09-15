@@ -1,5 +1,4 @@
 import * as PostViewRepository from '../repositories/PostViewRepository';
-
 //한개의 게시물 불러오기
 export const getPost = async (req, res, next) => {
   try {
@@ -37,6 +36,36 @@ export const getAllPost = async (req, res, next) => {
       res.send('아직 게시글이 존재하지 않습니다.');
     } else {
       res.status(200).send(allPost);
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+//가장 최근 게시물 4개
+export const getRecentPost = async (req, res, next) => {
+  try {
+    console.log(new Date());
+    const recentPost = await PostViewRepository.getRecentPost(parseInt(req.params));
+    if (!recentPost) {
+      return res.send('아직 게시글이 존재하지 않습니다.');
+    } else {
+      return res.status(200).send(recentPost);
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+export const getPostInPeriod = async (req, res, next) => {
+  try {
+    const postInPeriod = await PostViewRepository.getPostInPeriod(req.body);
+    if (!postInPeriod) {
+      return res.send('기간 내에 작성된 게시글이 존재하지 않습니다.');
+    } else {
+      return res.status(200).send(postInPeriod);
     }
   } catch (err) {
     console.error(err);
