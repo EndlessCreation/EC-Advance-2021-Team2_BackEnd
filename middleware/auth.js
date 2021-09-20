@@ -42,6 +42,24 @@ export const checkUserWhenGetByAccount = async (req, res, next) => {
   }
 };
 
+//유저의 게시글을 보고자 할때 Authorization
+export const checkUserById = async (req, res, next) => {
+  try {
+    const sessionUser = req.session.passport.user.id;
+    if (req.params.user_id !== undefined && parseInt(req.params.user_id) === sessionUser) return next();
+    else if (req.params.account !== undefined) {
+      const user = await findUserByAccount(req.params.account);
+      if (user.id === sessionUser) {
+        console.log('hi');
+        return next();
+      }
+    }
+    return res.status(401).send('잘못된 요청입니다.');
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 //태그 수정, 삭제시 유저 authorization.
 export const checkUserWithTagId = async (req, res, next) => {
   try {

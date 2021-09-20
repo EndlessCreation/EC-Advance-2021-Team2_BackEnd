@@ -10,7 +10,6 @@ export const getPost = async post_id => {
       include: {
         author: true,
         image: true,
-        hashtags: true,
       },
     });
   } catch (err) {
@@ -28,7 +27,6 @@ export const getUserPost = async user_account => {
         posts: {
           include: {
             image: true,
-            hashtags: true,
           },
         },
       },
@@ -45,7 +43,6 @@ export const getAllPost = async () => {
       include: {
         author: true,
         image: true,
-        hashtags: true,
       },
     });
   } catch (err) {
@@ -66,7 +63,6 @@ export const getRecentPost = async data => {
       },
       include: {
         image: true,
-        hashtags: true,
       },
     });
   } catch (err) {
@@ -78,9 +74,6 @@ export const getPostInPeriod = async data => {
   try {
     return prisma.post.findMany({
       where: {
-        hashtags: {
-          data: data.hashtags,
-        },
         createAt: {
           gte: data.maximum_date,
           lte: data.minimum_date,

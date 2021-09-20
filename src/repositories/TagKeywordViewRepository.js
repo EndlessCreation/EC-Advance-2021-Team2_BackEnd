@@ -49,7 +49,7 @@ export const getKeywordInTag = async keyword_id => {
 //tag안에 있는 keyword 및 Post들.
 export const getTagByIdwithKeywordAndPost = async tag_id => {
   try {
-    return await prisma.keyword.findUnique({
+    return await prisma.tag.findUnique({
       where: {
         id: tag_id,
       },
@@ -68,7 +68,7 @@ export const getTagByIdwithKeywordAndPost = async tag_id => {
 };
 
 //tag안에 있는 특정 keyword와 post들.
-export const getKeywordInTagsWithPost = async keyword_id => {
+export const getKeywordInTagWithPost = async keyword_id => {
   try {
     return await prisma.keyword.findUnique({
       where: {
@@ -76,6 +76,38 @@ export const getKeywordInTagsWithPost = async keyword_id => {
       },
       include: {
         post: true,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getPostWithTagInPeriod = async data => {
+  try {
+    return prisma.post.findMany({
+      where: {
+        createAt: {
+          gte: data.maximum_date,
+          lte: data.minimum_date,
+        },
+        tagAndKeyword_id: data.tag_id,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getPostWithTagandKeywordInPeriod = async data => {
+  try {
+    return prisma.post.findMany({
+      where: {
+        createAt: {
+          gte: data.maximum_date,
+          lte: data.minimum_date,
+        },
+        keyword_id: data.keyword_id,
       },
     });
   } catch (err) {
