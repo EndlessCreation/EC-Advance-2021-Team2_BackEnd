@@ -34,11 +34,11 @@ model Post {
   user_id    Int
 
 
-  image            Image?
-  post_tag         Tag?     @relation(fields: [tagAndKeyword_id], references: [id])
-  tagAndKeyword_id Int?
-  post_keyword     Keyword? @relation(fields: [keyword_id], references: [id])
-  keyword_id       Int?
+  image        Image?
+  post_tag     Tag?     @relation(fields: [tag_id], references: [id])
+  tag_id       Int?
+  post_keyword Keyword? @relation(fields: [keyword_id], references: [id])
+  keyword_id   Int?
 
   @@map("post")
 }
