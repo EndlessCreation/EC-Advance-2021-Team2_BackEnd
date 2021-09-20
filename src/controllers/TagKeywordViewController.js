@@ -5,7 +5,6 @@ import * as TagKeywordService from '../services/TagKeywordViewService';
 const router = express.Router();
 
 router.get('/alltag/:user_id', Auth.isLoggined, TagKeywordService.getUserTag);
-router.get('/keyword/:tag_id', Auth.isLoggined, TagKeywordService.getTagByIdwithKeyword);
-router.get('/keyword/:keyword_id', Auth.isLoggined, TagKeywordService.getKeywordInTag);
+router.get('/tag/:tag_id', Auth.isLoggined, TagKeywordService.getTagByIdwithKeyword);
 
 export default router;

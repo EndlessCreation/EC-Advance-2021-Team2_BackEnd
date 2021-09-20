@@ -18,6 +18,50 @@ export const createPost = async (data, user_id) => {
   }
 };
 
+export const createPostWithTag = async (data, user_id) => {
+  try {
+    return await prisma.post.create({
+      data: {
+        content: data.content,
+        author: {
+          connect: {
+            id: user_id,
+          },
+        },
+        post_tag: {
+          connect: {
+            id: data.tag_id,
+          },
+        },
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const createPostWithKeyword = async (data, user_id) => {
+  try {
+    return await prisma.post.create({
+      data: {
+        content: data.content,
+        author: {
+          connect: {
+            id: user_id,
+          },
+        },
+        post_keyword: {
+          connect: {
+            id: data.keyword_id,
+          },
+        },
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const updatePost = async data => {
   try {
     return await prisma.post.update({
@@ -26,6 +70,8 @@ export const updatePost = async data => {
       },
       data: {
         content: data.content,
+        tag_id: data.tag_id,
+        keyword_id: data.keyword_id,
       },
     });
   } catch (err) {
@@ -56,6 +102,8 @@ export const getPost = async post_id => {
         image: true,
         content: true,
         createAt: true,
+        post_tag: true,
+        post_keyword: true,
       },
     });
   } catch (err) {
