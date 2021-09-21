@@ -75,8 +75,8 @@ export const getPostInPeriod = async data => {
     return prisma.post.findMany({
       where: {
         createAt: {
-          gte: data.maximum_date,
-          lte: data.minimum_date,
+          lte: data.maximum_date,
+          gte: data.minimum_date,
         },
       },
     });

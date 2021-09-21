@@ -88,10 +88,10 @@ export const getPostWithTagInPeriod = async data => {
     return prisma.post.findMany({
       where: {
         createAt: {
-          gte: data.maximum_date,
-          lte: data.minimum_date,
+          lte: data.maximum_date,
+          gte: data.minimum_date,
         },
-        tagAndKeyword_id: data.tag_id,
+        tag_id: data.tag_id,
       },
     });
   } catch (err) {
@@ -99,15 +99,22 @@ export const getPostWithTagInPeriod = async data => {
   }
 };
 
-export const getPostWithTagandKeywordInPeriod = async data => {
+export const getPostWithKeywordInPeriod = async data => {
   try {
     return prisma.post.findMany({
       where: {
         createAt: {
-          gte: data.maximum_date,
-          lte: data.minimum_date,
+          lte: data.maximum_date,
+          gte: data.minimum_date,
         },
         keyword_id: data.keyword_id,
+      },
+      include: {
+        keyword: {
+          include: {
+            post: true,
+          },
+        },
       },
     });
   } catch (err) {

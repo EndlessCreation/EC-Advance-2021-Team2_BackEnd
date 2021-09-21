@@ -71,3 +71,31 @@ export const getKeywordInTagWithPost = async (req, res, next) => {
     next();
   }
 };
+
+export const getPostWithTagInPeriod = async (req, res, next) => {
+  try {
+    const post = await TagKeywordViewRepository.getPostWithTagInPeriod(req.body);
+    if (!post) {
+      return res.send('아직 keyword가 존재하지 않습니다.');
+    } else {
+      return res.status(200).send(post);
+    }
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
+
+export const getPostWithKeywordInPeriod = async (req, res, next) => {
+  try {
+    const post = await TagKeywordViewRepository.getPostWithKeywordInPeriod(req.body);
+    if (!post) {
+      return res.send('아직 keyword가 존재하지 않습니다.');
+    } else {
+      return res.status(200).send(post);
+    }
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};

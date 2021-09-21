@@ -11,4 +11,6 @@ router.get('/recent/:user_id', Auth.isLoggined, Auth.checkUserWhenGetByAccount, 
 router.get('/tag/:tag_id', Auth.isLoggined, TagKeywordViewService.getTagByIdwithKeywordAndPost);
 router.get('/keyword/:keyword_id', Auth.isLoggined, TagKeywordViewService.getKeywordInTagWithPost);
 router.post('/period', Auth.isLoggined, PostViewService.getPostInPeriod);
+router.post('/period/tag', Auth.isLoggined, TagKeywordViewService.getPostWithTagInPeriod);
+router.post('/period/keyword', Auth.isLoggined, TagKeywordViewService.getPostWithKeywordInPeriod);
 export default router;
