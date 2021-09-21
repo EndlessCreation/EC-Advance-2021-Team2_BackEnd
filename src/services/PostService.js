@@ -5,6 +5,8 @@ import * as PostRepository from '../repositories/PostRepository';
 export const writePost = async (req, res, next) => {
   try {
     //tag, keyword 설정 해줬는지 안해줬는지 체크.
+    req.body.tag_id = parseInt(req.body.tag_id);
+    req.body.keyword_id = parseInt(req.body.keyword_id);
     const post = await PostUtil.createPost(req.body, req.session.passport.user.id);
     let image;
     //게시글 업로드 오류발생시.

@@ -55,6 +55,11 @@ export const createPostWithKeyword = async (data, user_id) => {
             id: data.keyword_id,
           },
         },
+        post_tag: {
+          connect: {
+            id: data.tag_id,
+          },
+        },
       },
     });
   } catch (err) {

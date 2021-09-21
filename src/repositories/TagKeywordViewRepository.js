@@ -93,6 +93,10 @@ export const getPostWithTagInPeriod = async data => {
         },
         tag_id: data.tag_id,
       },
+      include: {
+        post_tag: true,
+        post_keyword: true,
+      },
     });
   } catch (err) {
     console.error(err);
@@ -108,13 +112,6 @@ export const getPostWithKeywordInPeriod = async data => {
           gte: data.minimum_date,
         },
         keyword_id: data.keyword_id,
-      },
-      include: {
-        keyword: {
-          include: {
-            post: true,
-          },
-        },
       },
     });
   } catch (err) {
