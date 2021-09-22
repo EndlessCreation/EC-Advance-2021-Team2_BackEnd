@@ -43,7 +43,7 @@ export const getAllPost = async (req, res, next) => {
   }
 };
 
-//가장 최근 게시물 4개
+//가장 최근 게시물 5개
 export const getRecentPost = async (req, res, next) => {
   try {
     console.log(new Date());

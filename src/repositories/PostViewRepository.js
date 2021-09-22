@@ -54,7 +54,7 @@ export const getRecentPost = async data => {
   try {
     console.log(data);
     return await prisma.post.findMany({
-      take: 4,
+      take: 5,
       where: {
         user_id: data.user_id,
       },
