@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 //input
 //tag, tag_color, keyword, keyword_color, user_id
-export const createKeyword = async (data, tag_id) => {
+export const createKeyword = async data => {
   try {
     return await prisma.keyword.create({
       data: {
@@ -11,7 +11,7 @@ export const createKeyword = async (data, tag_id) => {
         keyword_color: data.keyword_color,
         parent_tag: {
           connect: {
-            id: tag_id,
+            id: data.tag_id,
           },
         },
       },

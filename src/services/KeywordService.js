@@ -1,9 +1,11 @@
 import * as KeywordRepository from '../repositories/KeywordRepository';
-
+import { getTagById } from '../repositories/TagRepository';
 export const createKeyword = async (req, res, next) => {
   try {
     const user = req.session.passport.user;
-    const newTag = await KeywordRepository.createKeyword(req.body, user.id);
+    const tag = await getTagById(req.body.tag_id);
+    if (user.id !== tag.author_id) res.status(401).send('잘못된 요청입니다. 올바른 태그를 입력해주세요');
+    const newTag = await KeywordRepository.createKeyword(req.body);
     if (!newTag) {
       res.status(400).send('중복된 keyword입니다.');
     } else {
