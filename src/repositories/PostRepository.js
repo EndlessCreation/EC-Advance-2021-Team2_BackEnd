@@ -105,10 +105,26 @@ export const getPost = async post_id => {
       select: {
         id: true,
         image: true,
+        isFavorite: true,
         content: true,
         createAt: true,
         post_tag: true,
         post_keyword: true,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const updatePostAboutFavorite = async data => {
+  try {
+    return await prisma.post.update({
+      where: {
+        id: data.post_id,
+      },
+      data: {
+        isFavorite: data.isFavorite,
       },
     });
   } catch (err) {

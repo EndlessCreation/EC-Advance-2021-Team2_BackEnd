@@ -86,3 +86,17 @@ export const deletePost = async (req, res, next) => {
     next(err);
   }
 };
+
+export const updatePostAboutFavorite = async (req, res, next) => {
+  try {
+    const post = await PostRepository.getPost(req.body.post_id);
+    console.log(post);
+    req.body.isFavorite = !post.isFavorite;
+    const updatedPost = await PostRepository.updatePostAboutFavorite(req.body);
+    if (!updatedPost) return res.status(400).send('즐겨찾기 설정도중 문제가 발생하였습니다.');
+    return res.status(200).send(updatedPost);
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
