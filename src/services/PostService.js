@@ -72,6 +72,7 @@ export const editPost = async (req, res, next) => {
 export const deletePost = async (req, res, next) => {
   try {
     const post = await PostRepository.getPost(req.body.post_id);
+    console.log(post);
     deleteImageFromServer(post.image);
     await PostRepository.deletePost(parseInt(req.body.post_id));
     const toDelete = await PostRepository.getPost(req.body.post_id);
