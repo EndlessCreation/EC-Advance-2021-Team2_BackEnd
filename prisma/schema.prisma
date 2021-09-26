@@ -65,6 +65,7 @@ model Tag {
   author_id Int
 
   keyword Keyword[]
+  @@unique([author_id, tag])
   @@map("tag")
 }
 

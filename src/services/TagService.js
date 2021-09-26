@@ -43,3 +43,22 @@ export const deleteTag = async (req, res, next) => {
     next(err);
   }
 };
+
+export const createTagIfNotExist = async (req, res, next) => {
+  try {
+    const user = req.session.passport.user;
+    console.log(req.body);
+    const tag = await TagRepository.getTagByAuthorAndName(req.body, user.id);
+    if (!tag) {
+      const newTag = await TagRepository.createTag(req.body, user.id);
+      req.body.tag_id = newTag.id;
+      next();
+    } else {
+      req.body.tag_id = tag.id;
+      next();
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};

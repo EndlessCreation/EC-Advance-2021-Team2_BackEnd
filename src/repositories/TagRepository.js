@@ -56,3 +56,18 @@ export const getTagById = async tag_id => {
     console.error(err);
   }
 };
+
+export const getTagByAuthorAndName = async (data, user_id) => {
+  try {
+    return await prisma.tag.findUnique({
+      where: {
+        author_id_tag: {
+          author_id: user_id,
+          tag: data.tag,
+        },
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
