@@ -11,7 +11,7 @@ export const writePost = async (req, res, next) => {
     let image;
     //게시글 업로드 오류발생시.
     if (!post) {
-      return res.send('게시글을 올리는 도중 오류가 발생하였습니다.');
+      return res.status(400).send('게시글을 올리는 도중 오류가 발생하였습니다.');
     }
 
     if (!req.file) {
@@ -23,7 +23,7 @@ export const writePost = async (req, res, next) => {
     }
     //image, post 업로드 뒤에 오류 체크.
     if (!image) {
-      return res.send('이미지 업로드 실패. 게시글 수정을 통해 다시 올려주세요');
+      return res.status(400).send('이미지 업로드 실패. 게시글 수정을 통해 다시 올려주세요');
     } else {
       return res.status(200).send(image);
     }
@@ -77,7 +77,7 @@ export const deletePost = async (req, res, next) => {
     await PostRepository.deletePost(parseInt(req.body.post_id));
     const toDelete = await PostRepository.getPost(req.body.post_id);
     if (toDelete) {
-      res.send('게시글 삭제도중 오류가 발생하였습니다.');
+      res.status(400).send('게시글 삭제도중 오류가 발생하였습니다.');
     } else {
       res.status(200).send('게시글을 삭제하였습니다.');
     }
