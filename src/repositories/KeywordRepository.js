@@ -55,3 +55,18 @@ export const deleteKeyword = async keyword_id => {
     console.error(err);
   }
 };
+
+export const getKeywordByTagAndName = async data => {
+  try {
+    return await prisma.keyword.findUnique({
+      where: {
+        parent_tag_id_keyword_name: {
+          parent_tag_id: data.tag_id,
+          keyword_name: data.keyword,
+        },
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};

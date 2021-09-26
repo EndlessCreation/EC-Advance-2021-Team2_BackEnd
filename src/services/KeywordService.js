@@ -48,7 +48,7 @@ export const deleteKeyword = async (req, res, next) => {
   }
 };
 
-export const getUSerKeyword = async (req, res, next) => {
+export const getUserKeyword = async (req, res, next) => {
   try {
     const user = req.session.passport.user;
     const isExist = await KeywordRepository.getUserTagKeyword(user.id);
@@ -56,6 +56,23 @@ export const getUSerKeyword = async (req, res, next) => {
     if (!isExist) {
       return res.status(400).send('잘못된 요청입니다.');
     } else return res.status(200).send(isExist);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+export const createKeywordIfNotExist = async (req, res, next) => {
+  try {
+    const isExist = await KeywordRepository.getKeywordByTagAndName(req.body);
+    if (!isExist) {
+      const keyword = KeywordRepository.createKeyword(req.body);
+      req.body.keyword_id = keyword.id;
+      return next();
+    } else {
+      req.body.keyword_id = isExist.id;
+      return next();
+    }
   } catch (err) {
     console.error(err);
     next(err);
