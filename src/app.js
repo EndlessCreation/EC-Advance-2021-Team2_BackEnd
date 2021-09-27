@@ -4,6 +4,7 @@ import express from 'express';
 import session from 'express-session';
 import morgan from 'morgan';
 import passport from 'passport';
+import path from 'path';
 import env from '../configs/';
 import passportSession from '../configs/passport';
 import KeywordController from './controllers/KeywordController';
@@ -36,7 +37,8 @@ passportSession(passport);
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+console.log(__dirname);
+app.use('/static', express.static(path.join(__dirname, '../images')));
 app.use('/users', UserController);
 app.use('/posts', PostController);
 app.use('/postview', PostViewController);
