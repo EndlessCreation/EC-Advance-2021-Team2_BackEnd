@@ -37,7 +37,6 @@ passportSession(passport);
 
 app.use(passport.initialize());
 app.use(passport.session());
-console.log(__dirname);
 app.use('/static', express.static(path.join(__dirname, '../images')));
 app.use('/users', UserController);
 app.use('/posts', PostController);

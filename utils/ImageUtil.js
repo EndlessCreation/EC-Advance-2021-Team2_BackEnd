@@ -1,9 +1,10 @@
 import fs from 'fs';
+import path from 'path';
 import * as ImageRepository from '../src/repositories/ImageRepository';
 
 export const deleteImageFromServer = async image => {
   try {
-    if (image !== null && image !== undefined) fs.unlinkSync(image.path);
+    if (image !== null && image !== undefined) fs.unlinkSync(path.join(__dirname, `../images/${image.path}`));
   } catch (err) {
     console.error(err);
   }

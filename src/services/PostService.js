@@ -19,7 +19,8 @@ export const writePost = async (req, res, next) => {
       return res.status(200).send(post);
     } else {
       //사진 첨부시.
-      image = await ImageRepository.createImage(post.id, req.file.path);
+      console.log(req.file);
+      image = await ImageRepository.createImage(post.id, req.file.filename);
     }
     //image, post 업로드 뒤에 오류 체크.
     if (!image) {
@@ -51,7 +52,7 @@ export const editPost = async (req, res, next) => {
     if (req.file) {
       const post = await PostUtil.updatePost(req.body, req.session.passport.user.id);
       if (!post) res.status(400).send('게시글 수정 도중 문제가 발생하였습니다.');
-      await updateImageToDB(toEdit.image, { path: req.file.path, post_id: req.body.post_id });
+      await updateImageToDB(toEdit.image, { path: req.file.filename, post_id: req.body.post_id });
       return res.status(200).send(post);
     } else {
       //이미지가 없는 경우
