@@ -64,9 +64,10 @@ export const getUserKeyword = async (req, res, next) => {
 
 export const createKeywordIfNotExist = async (req, res, next) => {
   try {
+    if (req.body.tag === '' || req.body.keyword === '') return next();
     const isExist = await KeywordRepository.getKeywordByTagAndName(req.body);
     if (!isExist) {
-      const keyword = KeywordRepository.createKeyword(req.body);
+      const keyword = await KeywordRepository.createKeyword(req.body);
       req.body.keyword_id = keyword.id;
       return next();
     } else {

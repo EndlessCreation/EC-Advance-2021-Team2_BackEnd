@@ -46,9 +46,11 @@ export const deleteTag = async (req, res, next) => {
 
 export const createTagIfNotExist = async (req, res, next) => {
   try {
+    //tag를 입력하지 않은 경우.
+    if (req.body.tag === '') return next();
     const user = req.session.passport.user;
-    console.log(req.body);
     const tag = await TagRepository.getTagByAuthorAndName(req.body, user.id);
+    console.log(tag);
     if (!tag) {
       const newTag = await TagRepository.createTag(req.body, user.id);
       req.body.tag_id = newTag.id;
