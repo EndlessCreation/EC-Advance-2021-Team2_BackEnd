@@ -72,3 +72,18 @@ export const getPostInPeriod = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getFavoritePost = async (req, res, next) => {
+  try {
+    const user = req.session.passport.user;
+    const favoritePost = await PostViewRepository.getFavoritePost(parseInt(req.body), user);
+    if (!favoritePost) {
+      return res.send('즐겨찾기된 포스트가 존재하지 않습니다.');
+    } else {
+      return res.status(200).send(favoritePost);
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};

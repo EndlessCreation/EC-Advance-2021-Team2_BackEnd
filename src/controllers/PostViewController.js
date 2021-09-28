@@ -12,6 +12,9 @@ router.get('/:account', Auth.isLoggined, Auth.checkUserWhenGetByAccount, PostVie
 router.get('/one/:post_id', PostViewService.getPost);
 router.get('/recent/:user_id', Auth.isLoggined, Auth.checkUserWhenGetByAccount, PostViewService.getRecentPost);
 
+//즐겨찾기 게시물 가져오기
+router.get('/favorite/:user_id', Auth.isLoggined, PostViewService.getFavoritePost);
+
 //태그 키워드 필터링
 router.get('/tag/:tag_id', Auth.isLoggined, TagKeywordViewService.getTagByIdwithKeywordAndPost);
 router.get('/keyword/:keyword_id', Auth.isLoggined, TagKeywordViewService.getKeywordInTagWithPost);

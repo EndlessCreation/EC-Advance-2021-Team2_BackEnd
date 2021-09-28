@@ -97,6 +97,18 @@ export const getPostInPeriod = async data => {
   }
 };
 
+export const getFavoritePost = async data => {
+  try {
+    return await prisma.post.findMany({
+      where: {
+        user_id: data.user_id,
+        isFavorite: true,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
 // export const getCurrentPost = async() => {
 //   try{
 //     return await

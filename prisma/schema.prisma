@@ -57,7 +57,7 @@ model Image {
 model Tag {
   id        Int      @id @default(autoincrement())
   tag       String   @unique @db.VarChar(20)
-  tag_color String   @default("blue")
+  tag_color String   @default("gray")
   createAt  DateTime @default(now())
   updateAt  DateTime @updatedAt
   post      Post[]
@@ -72,7 +72,7 @@ model Tag {
 model Keyword {
   id            Int      @id @default(autoincrement())
   keyword_name  String
-  keyword_color String   @default("red")
+  keyword_color String   @default("gray")
   createAt      DateTime @default(now())
   updateAt      DateTime @updatedAt
   post          Post[]
