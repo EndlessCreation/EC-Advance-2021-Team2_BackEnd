@@ -56,7 +56,13 @@ export const getTagByIdwithKeywordAndPost = async tag_id => {
       include: {
         keyword: {
           include: {
-            post: true,
+            post: {
+              include: {
+                image: true,
+                post_tag: true,
+                post_keyword: true,
+              },
+            },
           },
         },
         post: true,
@@ -75,7 +81,13 @@ export const getKeywordInTagWithPost = async keyword_id => {
         id: keyword_id,
       },
       include: {
-        post: true,
+        post: {
+          include: {
+            image: true,
+            post_tag: true,
+            post_keyword: true,
+          },
+        },
       },
     });
   } catch (err) {
@@ -94,6 +106,7 @@ export const getPostWithTagInPeriod = async data => {
         tag_id: data.tag_id,
       },
       include: {
+        image: true,
         post_tag: true,
         post_keyword: true,
       },
@@ -112,6 +125,11 @@ export const getPostWithKeywordInPeriod = async data => {
           gte: data.minimum_date,
         },
         keyword_id: data.keyword_id,
+      },
+      include: {
+        image: true,
+        post_tag: true,
+        post_keyword: true,
       },
     });
   } catch (err) {

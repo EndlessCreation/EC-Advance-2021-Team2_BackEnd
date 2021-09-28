@@ -8,8 +8,9 @@ export const getPost = async post_id => {
         id: post_id,
       },
       include: {
-        author: true,
         image: true,
+        post_tag: true,
+        post_keyword: true,
       },
     });
   } catch (err) {
@@ -27,6 +28,8 @@ export const getUserPost = async user_account => {
         posts: {
           include: {
             image: true,
+            post_tag: true,
+            post_keyword: true,
           },
         },
       },
@@ -43,6 +46,8 @@ export const getAllPost = async () => {
       include: {
         author: true,
         image: true,
+        post_tag: true,
+        post_keyword: true,
       },
     });
   } catch (err) {
@@ -63,6 +68,8 @@ export const getRecentPost = async data => {
       },
       include: {
         image: true,
+        post_tag: true,
+        post_keyword: true,
       },
     });
   } catch (err) {
@@ -78,6 +85,11 @@ export const getPostInPeriod = async data => {
           lte: data.maximum_date,
           gte: data.minimum_date,
         },
+      },
+      include: {
+        image: true,
+        post_tag: true,
+        post_keyword: true,
       },
     });
   } catch (err) {
