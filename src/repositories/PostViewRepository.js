@@ -18,13 +18,13 @@ export const getPost = async post_id => {
   }
 };
 
-export const getUserPost = async user_account => {
+export const getUserPost = async user_id => {
   try {
     return await prisma.user.findMany({
       where: {
-        account: user_account,
+        id: user_id,
       },
-      include: {
+      select: {
         posts: {
           include: {
             image: true,

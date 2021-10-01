@@ -16,7 +16,7 @@ export const getPost = async (req, res, next) => {
 //유저의 게시물 불러오기
 export const getUserPost = async (req, res, next) => {
   try {
-    const userPost = await PostViewRepository.getUserPost(req.params.account);
+    const userPost = await PostViewRepository.getUserPost(parseInt(req.params.user_id));
     if (!userPost) {
       res.send('아직 게시글이 존재하지 않습니다.');
     } else {

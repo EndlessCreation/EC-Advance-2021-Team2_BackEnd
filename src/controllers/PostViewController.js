@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', PostViewService.getAllPost);
 
 //여기부터
-router.get('/:account', Auth.isLoggined, Auth.checkUserWhenGetByAccount, PostViewService.getUserPost);
+router.get('/:user_id', Auth.isLoggined, Auth.checkUserWhenGetByAccount, PostViewService.getUserPost);
 router.get('/one/:post_id', PostViewService.getPost);
 router.get('/recent/:user_id', Auth.isLoggined, Auth.checkUserWhenGetByAccount, PostViewService.getRecentPost);
 
