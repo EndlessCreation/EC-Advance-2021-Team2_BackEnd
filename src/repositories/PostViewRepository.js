@@ -104,6 +104,11 @@ export const getFavoritePost = async data => {
         user_id: data.user_id,
         isFavorite: true,
       },
+      include: {
+        image: true,
+        post_tag: true,
+        post_keyword: true,
+      },
     });
   } catch (err) {
     console.error(err);
