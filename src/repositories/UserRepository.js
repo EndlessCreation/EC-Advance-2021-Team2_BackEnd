@@ -12,6 +12,22 @@ export const createUser = async data => {
   }
 };
 
+/*input
+  1. email
+  2. oauth
+  3. nickname
+  4. phone_number
+*/
+export const createOAuthUser = async data => {
+  try {
+    return await prisma.user.create({
+      data,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 //유저를 이메일로 찾는다.
 export const findUserByEmail = async email => {
   try {

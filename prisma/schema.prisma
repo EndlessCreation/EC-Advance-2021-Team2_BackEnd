@@ -9,11 +9,12 @@ generator client {
 
 model User {
   id              Int       @id @default(autoincrement())
-  account         String    @unique @db.VarChar(20)
+  account         String?   @unique @db.VarChar(20)
   email           String    @unique @db.VarChar(20)
   name            String    @db.VarChar(20)
   nickname        String    @unique @db.VarChar(15)
-  password        String    @db.VarChar(100)
+  oauth           Boolean?  @default(false)
+  password        String?   @db.VarChar(100)
   createAt        DateTime  @default(now())
   updateAt        DateTime? @updatedAt
   isAdmin         Int       @default(0)

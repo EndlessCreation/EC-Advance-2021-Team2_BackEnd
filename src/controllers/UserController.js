@@ -1,6 +1,7 @@
 import express from 'express';
 import * as Auth from '../../middleware/auth';
 import * as Transfer from '../../middleware/findPassword';
+import * as OauthService from '../services/OauthService';
 import * as UserService from '../services/UserService';
 
 const router = express.Router();
@@ -15,6 +16,13 @@ router.post('/signup', Auth.isNotLoggined, UserService.SignUp);
 router.post('/login', Auth.isNotLoggined, UserService.Login);
 router.get('/logout', Auth.isLoggined, UserService.Logout);
 
+//oauth login
+router.get('/google', Auth.isNotLoggined, OauthService.getKeyFromGoogle);
+router.get('/google/redirect', Auth.isNotLoggined, OauthService.googleLogin);
+router.post('/google/signup', Auth.isNotLoggined, OauthService.oauthSignUp);
+router.get('/kakao', Auth.isNotLoggined, OauthService.getKeyFromKakao);
+router.get('/kakao/redirect', Auth.isNotLoggined, OauthService.kakaoLogin);
+router.post('/oauth/signup', Auth.isNotLoggined, OauthService.oauthSignUp);
 //유저 정보 체크
 router.get('/get_user', Auth.isLoggined, UserService.getUserInfo);
 
