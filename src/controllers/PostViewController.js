@@ -20,6 +20,7 @@ router.get('/tag/:tag_id', Auth.isLoggined, TagKeywordViewService.getTagByIdwith
 router.get('/keyword/:keyword_id', Auth.isLoggined, TagKeywordViewService.getKeywordInTagWithPost);
 
 //기간으로 필터링 + 태그 키워드
+//유저 체크하는 기능.
 router.post('/period', Auth.isLoggined, PostViewService.getPostInPeriod);
 router.post('/period/tag', Auth.isLoggined, TagKeywordViewService.getPostWithTagInPeriod);
 router.post('/period/keyword', Auth.isLoggined, TagKeywordViewService.getPostWithKeywordInPeriod);

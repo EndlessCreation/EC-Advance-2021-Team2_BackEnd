@@ -70,3 +70,15 @@ export const getKeywordByTagAndName = async data => {
     console.error(err);
   }
 };
+
+export const getKeywordById = async keyword_id => {
+  try {
+    return await prisma.keyword.findUnique({
+      where: {
+        id: keyword_id,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};

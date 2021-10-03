@@ -1,5 +1,7 @@
+import * as PostViewUtil from '../../utils/PostViewUtil';
+import * as KeywordRepository from '../repositories/KeywordRepository';
 import * as TagKeywordViewRepository from '../repositories/TagKeywordViewRepository';
-
+import * as TagRepository from '../repositories/TagRepository';
 export const getUserTag = async (req, res, next) => {
   try {
     const tag = await TagKeywordViewRepository.getUserTag(req.session.passport.user.id);
@@ -20,6 +22,7 @@ export const getTagByIdwithKeyword = async (req, res, next) => {
     if (!tag) {
       return res.send('아직 tag가 존재하지 않습니다.');
     } else {
+      if (tag.author_id !== req.session.passport.user.id) return res.status(401).send('잘못된 요청입니다.');
       return res.status(200).send(tag);
     }
   } catch (err) {
@@ -34,7 +37,8 @@ export const getKeywordInTag = async (req, res, next) => {
     if (!keyword) {
       return res.send('아직 keyword가 존재하지 않습니다.');
     } else {
-      return res.status(200).send(keyword);
+      if (await PostViewUtil.checkUserHasKeyword(keyword.parent_tag_id, req.session.passport.user.id)) return res.status(200).send(keyword);
+      return res.status(401).send('잘못된 요청입니다.');
     }
   } catch (err) {
     console.error(err);
@@ -48,6 +52,7 @@ export const getTagByIdwithKeywordAndPost = async (req, res, next) => {
     if (!tag) {
       return res.send('아직 tag가 존재하지 않습니다.');
     } else {
+      if (tag.author_id !== req.session.passport.user.id) return res.status(401).send('잘못된 요청입니다.');
       return res.status(200).send(tag);
     }
   } catch (err) {
@@ -62,7 +67,8 @@ export const getKeywordInTagWithPost = async (req, res, next) => {
     if (!keyword) {
       return res.send('아직 keyword가 존재하지 않습니다.');
     } else {
-      return res.status(200).send(keyword);
+      if (await PostViewUtil.checkUserHasKeyword(keyword.parent_tag_id, req.session.passport.user.id)) return res.status(200).send(keyword);
+      return res.status(401).send('잘못된 요청입니다.');
     }
   } catch (err) {
     console.error(err);
@@ -76,6 +82,8 @@ export const getPostWithTagInPeriod = async (req, res, next) => {
     if (!post) {
       return res.send('아직 keyword가 존재하지 않습니다.');
     } else {
+      const tag = await TagRepository.getTagById(req.body.tag_id);
+      if (tag.author_id !== req.session.passport.user.id) return res.status(401).send('잘못된 요청입니다.');
       return res.status(200).send(post);
     }
   } catch (err) {
@@ -90,7 +98,9 @@ export const getPostWithKeywordInPeriod = async (req, res, next) => {
     if (!post) {
       return res.send('아직 keyword가 존재하지 않습니다.');
     } else {
-      return res.status(200).send(post);
+      const keyword = await KeywordRepository.getKeywordById(req.body.keyword_id);
+      if (await PostViewUtil.checkUserHasKeyword(keyword.parent_tag_id, req.session.passport.user.id)) return res.status(200).send(post);
+      return res.status(401).send('잘못된 요청입니다.');
     }
   } catch (err) {
     console.error(err);

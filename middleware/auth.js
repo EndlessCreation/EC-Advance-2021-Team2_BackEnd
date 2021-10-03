@@ -42,17 +42,6 @@ export const checkUserById = async (req, res, next) => {
   }
 };
 
-//유저의 게시글을 태그로 나눠서 볼 때 id값을 통해 authorization
-export const checkTagByUserId = async (req, res, next) => {
-  try {
-    const sessionUser = req.session.passport.user.id;
-    const tag = await getTagById(req.body.tag_id);
-    return res.status(401).send('잘못된 요청입니다.');
-  } catch (err) {
-    console.error(err);
-  }
-};
-
 //태그 수정, 삭제시 유저 authorization.
 export const checkUserWithTagId = async (req, res, next) => {
   try {
