@@ -9,7 +9,11 @@ export const getUserTag = async user_id => {
         id: user_id,
       },
       select: {
-        all_tag_keyword: true,
+        all_tag_keyword: {
+          include: {
+            keyword: true,
+          },
+        },
       },
     });
   } catch (err) {
@@ -17,6 +21,20 @@ export const getUserTag = async user_id => {
   }
 };
 
+export const getUserTagWithKeyword = async user_id => {
+  try {
+    return await prisma.user.findUnique({
+      where: {
+        id: user_id,
+      },
+      select: {
+        all_tag_keyword: true,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
 //tag안에 있는 keyword만
 export const getTagByIdwithKeyword = async tag_id => {
   try {

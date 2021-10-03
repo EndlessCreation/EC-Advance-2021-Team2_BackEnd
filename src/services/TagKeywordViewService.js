@@ -107,3 +107,17 @@ export const getPostWithKeywordInPeriod = async (req, res, next) => {
     next();
   }
 };
+
+export const getUserTagWithKeyword = async (req, res, next) => {
+  try {
+    const tag = await TagKeywordViewRepository.getUserTag(req.session.passport.user.id);
+    if (!tag) {
+      return res.send('아직 tag가 존재하지 않습니다.');
+    } else {
+      return res.status(200).send(tag);
+    }
+  } catch (err) {
+    console.error(err);
+    next();
+  }
+};
