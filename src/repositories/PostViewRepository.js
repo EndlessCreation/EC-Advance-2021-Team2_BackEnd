@@ -41,7 +41,6 @@ export const getUserPost = async user_id => {
 
 export const getAllPost = async () => {
   try {
-    console.log('hi');
     return await prisma.post.findMany({
       include: {
         author: true,
@@ -55,13 +54,12 @@ export const getAllPost = async () => {
   }
 };
 
-export const getRecentPost = async data => {
+export const getRecentPost = async user_id => {
   try {
-    console.log(data);
     return await prisma.post.findMany({
       take: 5,
       where: {
-        user_id: data.user_id,
+        user_id,
       },
       orderBy: {
         createAt: 'desc',
@@ -77,11 +75,12 @@ export const getRecentPost = async data => {
   }
 };
 
-export const getPostInPeriod = async data => {
+export const getPostInPeriod = async (data, user_id) => {
   try {
     return prisma.post.findMany({
       where: {
         createAt: {
+          user_id,
           lte: data.maximum_date,
           gte: data.minimum_date,
         },
@@ -114,17 +113,3 @@ export const getFavoritePost = async data => {
     console.error(err);
   }
 };
-// export const getCurrentPost = async() => {
-//   try{
-//     return await
-//   }catch(err){
-//     console.error(err);
-//   }
-// }
-// export const getCurrentPost = async() => {
-//   try{
-//     return await
-//   }catch(err){
-//     console.error(err);
-//   }
-// }

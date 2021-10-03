@@ -2,8 +2,7 @@ import * as TagKeywordViewRepository from '../repositories/TagKeywordViewReposit
 
 export const getUserTag = async (req, res, next) => {
   try {
-    console.log(req.params.user_id);
-    const tag = await TagKeywordViewRepository.getUserTag(parseInt(req.params.user_id));
+    const tag = await TagKeywordViewRepository.getUserTag(req.session.passport.user.id);
     if (!tag) {
       return res.send('아직 tag가 존재하지 않습니다.');
     } else {
@@ -45,7 +44,6 @@ export const getKeywordInTag = async (req, res, next) => {
 
 export const getTagByIdwithKeywordAndPost = async (req, res, next) => {
   try {
-    console.log(req.params.tag_id);
     const tag = await TagKeywordViewRepository.getTagByIdwithKeywordAndPost(parseInt(req.params.tag_id));
     if (!tag) {
       return res.send('아직 tag가 존재하지 않습니다.');

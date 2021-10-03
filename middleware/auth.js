@@ -24,8 +24,8 @@ export const isAdministrator = (req, res, next) => {
   }
 };
 
-//유저의 게시글을 보고자 할때 Authorization
-export const checkUserWhenGetByAccount = async (req, res, next) => {
+//유저의 게시글을 보고자 할때 id값으로 Authorization
+export const checkUserById = async (req, res, next) => {
   try {
     const sessionUser = req.session.passport.user.id;
     if (req.params.user_id !== undefined && parseInt(req.params.user_id) === sessionUser) return next();
@@ -42,18 +42,11 @@ export const checkUserWhenGetByAccount = async (req, res, next) => {
   }
 };
 
-//유저의 게시글을 보고자 할때 Authorization
-export const checkUserById = async (req, res, next) => {
+//유저의 게시글을 태그로 나눠서 볼 때 id값을 통해 authorization
+export const checkTagByUserId = async (req, res, next) => {
   try {
     const sessionUser = req.session.passport.user.id;
-    if (req.params.user_id !== undefined && parseInt(req.params.user_id) === sessionUser) return next();
-    else if (req.params.account !== undefined) {
-      const user = await findUserByAccount(req.params.account);
-      if (user.id === sessionUser) {
-        console.log('hi');
-        return next();
-      }
-    }
+    const tag = await getTagById(req.body.tag_id);
     return res.status(401).send('잘못된 요청입니다.');
   } catch (err) {
     console.error(err);

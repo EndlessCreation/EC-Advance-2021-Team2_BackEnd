@@ -16,7 +16,7 @@ export const getPost = async (req, res, next) => {
 //유저의 게시물 불러오기
 export const getUserPost = async (req, res, next) => {
   try {
-    const userPost = await PostViewRepository.getUserPost(parseInt(req.params.user_id));
+    const userPost = await PostViewRepository.getUserPost(req.session.passport.user.id);
     if (!userPost) {
       res.send('아직 게시글이 존재하지 않습니다.');
     } else {
@@ -46,8 +46,7 @@ export const getAllPost = async (req, res, next) => {
 //가장 최근 게시물 5개
 export const getRecentPost = async (req, res, next) => {
   try {
-    console.log(new Date());
-    const recentPost = await PostViewRepository.getRecentPost(parseInt(req.params));
+    const recentPost = await PostViewRepository.getRecentPost(req.session.passport.user.id);
     if (!recentPost) {
       return res.send('아직 게시글이 존재하지 않습니다.');
     } else {
@@ -61,7 +60,7 @@ export const getRecentPost = async (req, res, next) => {
 
 export const getPostInPeriod = async (req, res, next) => {
   try {
-    const postInPeriod = await PostViewRepository.getPostInPeriod(req.body);
+    const postInPeriod = await PostViewRepository.getPostInPeriod(req.body, req.session.passport.user.id);
     if (!postInPeriod) {
       return res.send('기간 내에 작성된 게시글이 존재하지 않습니다.');
     } else {
@@ -75,8 +74,9 @@ export const getPostInPeriod = async (req, res, next) => {
 
 export const getFavoritePost = async (req, res, next) => {
   try {
+    console.log(req.body);
     const user = req.session.passport.user;
-    const favoritePost = await PostViewRepository.getFavoritePost(parseInt(req.body), user);
+    const favoritePost = await PostViewRepository.getFavoritePost(user);
     if (!favoritePost) {
       return res.send('즐겨찾기된 포스트가 존재하지 않습니다.');
     } else {
