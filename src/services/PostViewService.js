@@ -74,7 +74,6 @@ export const getPostInPeriod = async (req, res, next) => {
 
 export const getFavoritePost = async (req, res, next) => {
   try {
-    console.log(req.body);
     const user = req.session.passport.user;
     const favoritePost = await PostViewRepository.getFavoritePost(user);
     if (!favoritePost) {

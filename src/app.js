@@ -7,13 +7,13 @@ import passport from 'passport';
 import path from 'path';
 import env from '../configs/';
 import passportSession from '../configs/passport';
+import BannerController from './controllers/BannerController';
 import KeywordController from './controllers/KeywordController';
 import PostController from './controllers/PostController';
 import PostViewController from './controllers/PostViewController';
 import TagController from './controllers/TagController';
 import TagKeywordController from './controllers/TagKeywordViewController';
 import UserController from './controllers/UserController';
-
 const app = express();
 
 app.use(morgan('dev'));
@@ -44,7 +44,7 @@ app.use('/postview', PostViewController);
 app.use('/tag', TagController);
 app.use('/keyword', KeywordController);
 app.use('/tag-keyword-view', TagKeywordController);
-
+app.use('/banner', BannerController);
 app.listen(env.PORT, () => {
   console.log('서버시작');
 });

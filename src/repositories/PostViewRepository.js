@@ -113,3 +113,11 @@ export const getFavoritePost = async data => {
     console.error(err);
   }
 };
+
+export const getRandomPost = async user_id => {
+  try {
+    return await prisma.$queryRaw(`SELECT * from post WHERE user_id=${user_id} order by rand() limit 1;`);
+  } catch (err) {
+    console.error(err);
+  }
+};
