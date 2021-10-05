@@ -9,11 +9,7 @@ export const getUserTag = async user_id => {
         id: user_id,
       },
       select: {
-        all_tag_keyword: {
-          include: {
-            keyword: true,
-          },
-        },
+        all_tag_keyword: true,
       },
     });
   } catch (err) {
@@ -28,7 +24,11 @@ export const getUserTagWithKeyword = async user_id => {
         id: user_id,
       },
       select: {
-        all_tag_keyword: true,
+        all_tag_keyword: {
+          include: {
+            keyword: true,
+          },
+        },
       },
     });
   } catch (err) {
