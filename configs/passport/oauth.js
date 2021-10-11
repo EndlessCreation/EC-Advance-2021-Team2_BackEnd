@@ -16,9 +16,13 @@ export const kakaoOAuth = passport => {
         //만약 google Id 찾아봤는데 없으면 회원가입 또는 아이디 연결로 넘겨야됨.
         if (!currentUser) {
           //false면 unauthorized라고 뜬다.
-          return done(false, { isSignUp: false, email: profile._json.kakao_account.email }, { message: '연동된 google 아이디가 아닙니다.' });
+          return done(
+            false,
+            { isSignUp: false, email: profile._json.kakao_account.email, provider: profile.provider },
+            { message: '연동된 Kakao 아이디가 아닙니다.' }
+          );
         }
-        if (currentUser.oauth === true) return done(null, currentUser);
+        if (currentUser.oauth === 'kakao') return done(null, currentUser);
         return done(false, false, { message: '잘못된 접근입니다.' });
       }
     )
@@ -39,9 +43,13 @@ export const googleOAuth = passport => {
         //만약 google Id 찾아봤는데 없으면 회원가입 또는 아이디 연결로 넘겨야됨.
         if (!currentUser) {
           //false면 unauthorized라고 뜬다.
-          return done(false, { isSignUp: false, email: profile._json.email }, { message: '연동된 google 아이디가 아닙니다.' });
+          return done(
+            false,
+            { isSignUp: false, email: profile._json.email, provider: profile.provider },
+            { message: '연동된 google 아이디가 아닙니다.' }
+          );
         }
-        if (currentUser.oauth === true) return done(null, currentUser);
+        if (currentUser.oauth === 'google') return done(null, currentUser);
         return done(false, false, { message: '잘못된 접근입니다.' });
       }
     )

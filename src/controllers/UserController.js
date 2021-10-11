@@ -19,7 +19,6 @@ router.get('/logout', Auth.isLoggined, UserService.Logout);
 //oauth login
 router.get('/google', Auth.isNotLoggined, OauthService.getKeyFromGoogle);
 router.get('/google/redirect', Auth.isNotLoggined, OauthService.googleLogin);
-router.post('/google/signup', Auth.isNotLoggined, OauthService.oauthSignUp);
 router.get('/kakao', Auth.isNotLoggined, OauthService.getKeyFromKakao);
 router.get('/kakao/redirect', Auth.isNotLoggined, OauthService.kakaoLogin);
 router.post('/oauth/signup', Auth.isNotLoggined, OauthService.oauthSignUp);

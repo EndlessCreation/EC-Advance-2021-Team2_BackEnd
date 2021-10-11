@@ -13,7 +13,7 @@ model User {
   email           String    @unique @db.VarChar(20)
   name            String    @db.VarChar(20)
   nickname        String    @unique @db.VarChar(15)
-  oauth           Boolean?  @default(false)
+  oauth           String?
   password        String?   @db.VarChar(100)
   createAt        DateTime  @default(now())
   updateAt        DateTime? @updatedAt
@@ -50,7 +50,7 @@ model Image {
   createAt  DateTime @default(now())
   updateAt  DateTime @updatedAt
   postImage Post?    @relation(fields: [post_id], references: [id])
-  post_id   Int?
+  post_id   Int?     @unique
 
   @@map("image")
 }

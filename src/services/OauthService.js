@@ -2,7 +2,6 @@ import passport from 'passport';
 import { createOAuthUser } from '../repositories/UserRepository';
 export const oauthSignUp = async (req, res, next) => {
   try {
-    req.body.oauth = true;
     const user = await createOAuthUser(req.body);
     if (!user) {
       res.send('이미 존재하는 유저입니다.');
@@ -53,6 +52,7 @@ export const googleLogin = async (req, res, next) => {
             console.error(err);
             next(err);
           }
+          if (user.isSignUp === false) return res.send(user);
           return res.status(200).send({ isSignUp: true, email: user.email, user_id: user.id });
         });
       }
@@ -74,6 +74,7 @@ export const kakaoLogin = async (req, res, next) => {
           console.error(err);
           next(err);
         }
+        if (user.isSignUp === false) return res.send(user);
         return res.status(200).send({ isSignUp: true, email: user.email, user_id: user.id });
       });
     })(req, res, next);
