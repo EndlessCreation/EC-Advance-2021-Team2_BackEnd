@@ -12,14 +12,13 @@ export const kakaoOAuth = passport => {
         callbackURL: '/users/kakao/redirect',
       },
       async (accessToken, refreshToken, profile, done) => {
-        console.log(profile);
         const currentUser = await UserRepository.findUserByEmail(profile._json.kakao_account.email);
         //만약 google Id 찾아봤는데 없으면 회원가입 또는 아이디 연결로 넘겨야됨.
         if (!currentUser) {
           //false면 unauthorized라고 뜬다.
           return done(false, { isSignUp: false, email: profile._json.kakao_account.email }, { message: '연동된 google 아이디가 아닙니다.' });
         }
-        if (currentUser.oauth === true) return done(null, { isSignUp: true, email: currentUser.email, user_id: currentUser.id });
+        if (currentUser.oauth === true) return done(null, currentUser);
         return done(false, false, { message: '잘못된 접근입니다.' });
       }
     )
@@ -36,14 +35,13 @@ export const googleOAuth = passport => {
         clientSecret: `${env.google.CLIENTPASSWD}`,
       },
       async (accessToken, refreshToken, profile, done) => {
-        console.log(profile);
         const currentUser = await UserRepository.findUserByEmail(profile._json.email);
         //만약 google Id 찾아봤는데 없으면 회원가입 또는 아이디 연결로 넘겨야됨.
         if (!currentUser) {
           //false면 unauthorized라고 뜬다.
           return done(false, { isSignUp: false, email: profile._json.email }, { message: '연동된 google 아이디가 아닙니다.' });
         }
-        if (currentUser.oauth === true) return done(null, { isSignUp: true, email: currentUser.email, user_id: currentUser.id });
+        if (currentUser.oauth === true) return done(null, currentUser);
         return done(false, false, { message: '잘못된 접근입니다.' });
       }
     )

@@ -47,14 +47,13 @@ export const googleLogin = async (req, res, next) => {
       },
       async (err, user) => {
         if (user === false) return res.status(400).send('잘못된 접근입니다.');
-        console.log(user);
         req.login(user, err => {
           if (err) {
             //passport login 실행단계
             console.error(err);
             next(err);
           }
-          return res.status(200).send(user);
+          return res.status(200).send({ isSignUp: true, email: user.email, user_id: user.id });
         });
       }
     )(req, res, next);
@@ -75,7 +74,7 @@ export const kakaoLogin = async (req, res, next) => {
           console.error(err);
           next(err);
         }
-        return res.status(200).send(user);
+        return res.status(200).send({ isSignUp: true, email: user.email, user_id: user.id });
       });
     })(req, res, next);
   } catch (err) {

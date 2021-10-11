@@ -22,6 +22,6 @@ export default passport => {
     }
   });
   local(passport);
-  oauth.googleOAuth(passport);
   oauth.kakaoOAuth(passport);
+  oauth.googleOAuth(passport);
 };
