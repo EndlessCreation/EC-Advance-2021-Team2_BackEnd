@@ -1,3 +1,4 @@
+import algolia from '../../configs/algolia';
 import { deleteImageFromDB, deleteImageFromServer, updateImageToDB } from '../../utils/ImageUtil';
 import * as PostUtil from '../../utils/PostUitl';
 import * as ImageRepository from '../repositories/ImageRepository';
@@ -16,6 +17,8 @@ export const writePost = async (req, res, next) => {
 
     if (!req.file) {
       //사진을 첨부하지 않았을 시.
+      post.objectID = post.id;
+      await algolia.saveObject(post, { autoGenerateObjectIDIfNotExist: true });
       return res.status(200).send(post);
     } else {
       //사진 첨부시.
@@ -26,6 +29,8 @@ export const writePost = async (req, res, next) => {
     if (!image) {
       return res.status(400).send('이미지 업로드 실패. 게시글 수정을 통해 다시 올려주세요');
     } else {
+      post.objectID = post.id;
+      await algolia.saveObject(post, { autoGenerateObjectIDIfNotExist: true });
       return res.status(200).send(image);
     }
   } catch (err) {
@@ -53,6 +58,15 @@ export const editPost = async (req, res, next) => {
       const post = await PostUtil.updatePost(req.body, req.session.passport.user.id);
       if (!post) res.status(400).send('게시글 수정 도중 문제가 발생하였습니다.');
       await updateImageToDB(toEdit.image, { path: req.file.filename, post_id: req.body.post_id });
+      await algolia.partialUpdateObjects([
+        {
+          content: post.content,
+          updateAt: post.updateAt,
+          tag_id: post.tag_id,
+          keyword_id: post.keyword_id,
+          objectID: `${post.id}`,
+        },
+      ]);
       return res.status(200).send(post);
     } else {
       //이미지가 없는 경우
@@ -61,6 +75,15 @@ export const editPost = async (req, res, next) => {
       if (!deletedImage) {
         return res.status(400).send('게시글 수정 도중 문제가 발생하였습니다.');
       }
+      await algolia.partialUpdateObjects([
+        {
+          content: post.content,
+          updateAt: post.updateAt,
+          tag_id: post.tag_id,
+          keyword_id: post.keyword_id,
+          objectID: `${post.id}`,
+        },
+      ]);
       return res.status(200).send(post);
     }
     //여긴 나중에 req.params.postid로 바꿀것.
@@ -80,6 +103,7 @@ export const deletePost = async (req, res, next) => {
     if (toDelete) {
       res.status(400).send('게시글 삭제도중 오류가 발생하였습니다.');
     } else {
+      await algolia.deleteObject(`${req.body.post_id}`);
       res.status(200).send('게시글을 삭제하였습니다.');
     }
   } catch (err) {
@@ -95,6 +119,7 @@ export const updatePostAboutFavorite = async (req, res, next) => {
     req.body.isFavorite = !post.isFavorite;
     const updatedPost = await PostRepository.updatePostAboutFavorite(req.body);
     if (!updatedPost) return res.status(400).send('즐겨찾기 설정도중 문제가 발생하였습니다.');
+    await algolia.partialUpdateObject({ objectID: req.body.post_id, isFavorite: req.body.isFavorite });
     return res.status(200).send(updatedPost);
   } catch (err) {
     console.error(err);
