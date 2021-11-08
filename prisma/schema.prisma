@@ -57,7 +57,7 @@ model Image {
 
 model Tag {
   id        Int      @id @default(autoincrement())
-  tag       String   @unique @db.VarChar(20)
+  tag       String   @db.VarChar(20)
   tag_color String   @default("gray")
   createAt  DateTime @default(now())
   updateAt  DateTime @updatedAt

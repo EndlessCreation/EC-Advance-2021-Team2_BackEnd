@@ -11,6 +11,7 @@ import BannerController from './controllers/BannerController';
 import KeywordController from './controllers/KeywordController';
 import PostController from './controllers/PostController';
 import PostViewController from './controllers/PostViewController';
+import SearchController from './controllers/SearchController';
 import TagController from './controllers/TagController';
 import TagKeywordController from './controllers/TagKeywordViewController';
 import UserController from './controllers/UserController';
@@ -45,6 +46,7 @@ app.use('/tag', TagController);
 app.use('/keyword', KeywordController);
 app.use('/tag-keyword-view', TagKeywordController);
 app.use('/banner', BannerController);
+app.use('/search', SearchController);
 app.listen(env.PORT, () => {
   console.log('서버시작');
 });
