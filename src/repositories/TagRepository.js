@@ -59,7 +59,7 @@ export const getTagById = async tag_id => {
 
 export const getTagByAuthorAndName = async (data, user_id) => {
   try {
-    return await prisma.tag.findMany({
+    return await prisma.tag.findUnique({
       where: {
         author_id_tag: {
           author_id: user_id,

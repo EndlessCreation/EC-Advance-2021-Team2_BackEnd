@@ -50,7 +50,6 @@ export const createTagIfNotExist = async (req, res, next) => {
     if (req.body.tag === '') return next();
     const user = req.session.passport.user;
     const tag = await TagRepository.getTagByAuthorAndName(req.body, user.id);
-    console.log(tag);
     if (!tag) {
       const newTag = await TagRepository.createTag(req.body, user.id);
       req.body.tag_id = newTag.id;

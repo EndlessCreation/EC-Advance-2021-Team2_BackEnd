@@ -22,7 +22,6 @@ export const writePost = async (req, res, next) => {
       return res.status(200).send(post);
     } else {
       //사진 첨부시.
-      console.log(req.file);
       image = await ImageRepository.createImage(post.id, req.file.filename);
     }
     //image, post 업로드 뒤에 오류 체크.

@@ -5,9 +5,7 @@ export const searchByContent = async (req, res, next) => {
     const searchedValue = await algolia.search(req.body.content, {
       filters: `user_id:${req.body.user_id}`,
     });
-    console.log(searchedValue);
-
-    return res.status(200).send('hi');
+    return res.status(200).send(searchedValue.hits);
   } catch (err) {
     console.error(err);
     next();

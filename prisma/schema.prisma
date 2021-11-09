@@ -66,7 +66,7 @@ model Tag {
   author_id Int
 
   keyword Keyword[]
-  @@unique([author_id, tag])
+  @@unique([author_id, tag], name: "author_id_tag")
   @@map("tag")
 }
 
@@ -80,6 +80,6 @@ model Keyword {
   parent_tag    Tag      @relation(fields: [parent_tag_id], references: [id])
   parent_tag_id Int
 
-  @@unique([parent_tag_id, keyword_name])
+  @@unique([parent_tag_id, keyword_name], name: "parent_tag_id_keyword_name")
   @@map("keyword")
 }
