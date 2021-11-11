@@ -122,7 +122,7 @@ export const getFavoritePostRandomly = async user_id => {
 };
 export const getRandomPost = async user_id => {
   try {
-    return await prisma.$queryRaw(`SELECT * from post WHERE user_id=${user_id} order by rand() limit 1;`);
+    return await prisma.$queryRaw(`SELECT * FROM post WHERE post.user_id=${user_id} ORDER BY rand() limit 1;`);
   } catch (err) {
     console.error(err);
   }
