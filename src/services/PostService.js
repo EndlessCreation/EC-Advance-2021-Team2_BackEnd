@@ -18,6 +18,7 @@ export const writePost = async (req, res, next) => {
     if (!req.file) {
       //사진을 첨부하지 않았을 시.
       post.objectID = post.id;
+      post.image = null;
       await algolia.saveObject(post, { autoGenerateObjectIDIfNotExist: true });
       return res.status(200).send(post);
     } else {
@@ -29,6 +30,7 @@ export const writePost = async (req, res, next) => {
       return res.status(400).send('이미지 업로드 실패. 게시글 수정을 통해 다시 올려주세요');
     } else {
       post.objectID = post.id;
+      post.image = image;
       await algolia.saveObject(post, { autoGenerateObjectIDIfNotExist: true });
       return res.status(200).send(image);
     }
@@ -56,7 +58,7 @@ export const editPost = async (req, res, next) => {
     if (req.file) {
       const post = await PostUtil.updatePost(req.body, req.session.passport.user.id);
       if (!post) res.status(400).send('게시글 수정 도중 문제가 발생하였습니다.');
-      await updateImageToDB(toEdit.image, { path: req.file.filename, post_id: req.body.post_id });
+      const editedImage = await updateImageToDB(toEdit.image, { path: req.file.filename, post_id: req.body.post_id });
       await algolia.partialUpdateObjects([
         {
           content: post.content,
@@ -64,6 +66,7 @@ export const editPost = async (req, res, next) => {
           tag_id: post.tag_id,
           keyword_id: post.keyword_id,
           objectID: `${post.id}`,
+          image: editedImage,
         },
       ]);
       return res.status(200).send(post);
@@ -81,6 +84,7 @@ export const editPost = async (req, res, next) => {
           tag_id: post.tag_id,
           keyword_id: post.keyword_id,
           objectID: `${post.id}`,
+          image: null,
         },
       ]);
       return res.status(200).send(post);
