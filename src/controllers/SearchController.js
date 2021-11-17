@@ -1,5 +1,5 @@
 import express from 'express';
-import * as Auth from '../../middleware/auth';
+import * as Auth from '../middleware/auth';
 import * as SearchService from '../services/SearchService';
 const router = express.Router();
 

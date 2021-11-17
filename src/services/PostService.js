@@ -1,8 +1,8 @@
-import algolia from '../../configs/algolia';
-import * as ImageUtil from '../../utils/ImageUtil';
-import { deleteImageFromServer } from '../../utils/ImageUtil';
-import * as PostUtil from '../../utils/PostUitl';
+import algolia from '../configs/algolia';
 import * as PostRepository from '../repositories/PostRepository';
+import * as ImageUtil from '../utils/ImageUtil';
+import { deleteImageFromServer } from '../utils/ImageUtil';
+import * as PostUtil from '../utils/PostUitl';
 export const writePost = async (req, res, next) => {
   try {
     //tag, keyword 설정 해줬는지 안해줬는지 체크.

@@ -1,5 +1,5 @@
 import express from 'express';
-import * as Auth from '../../middleware/auth';
+import * as Auth from '../middleware/auth';
 import * as TagService from '../services/TagService';
 
 const router = express.Router();

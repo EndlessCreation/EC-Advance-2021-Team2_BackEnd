@@ -1,4 +1,4 @@
-import algolia from '../../configs/algolia';
+import algolia from '../configs/algolia';
 
 export const searchByContent = async (req, res, next) => {
   try {

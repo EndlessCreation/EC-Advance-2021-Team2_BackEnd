@@ -1,5 +1,5 @@
-import * as PostRepository from '../src/repositories/PostRepository';
-import { getKeywordInTag } from '../src/repositories/TagKeywordViewRepository';
+import * as PostRepository from '../repositories/PostRepository';
+import { getKeywordInTag } from '../repositories/TagKeywordViewRepository';
 export const updatePost = async (data, user_id) => {
   try {
     if (isNaN(data.tag_id)) {

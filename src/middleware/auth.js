@@ -1,5 +1,5 @@
-import { getTagById } from '../src/repositories/TagRepository';
-import { findUserByAccount } from '../src/repositories/UserRepository';
+import { getTagById } from '../repositories/TagRepository';
+import { findUserByAccount } from '../repositories/UserRepository';
 export const isLoggined = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();

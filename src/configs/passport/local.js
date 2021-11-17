@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import strategy from 'passport-local';
-import * as UserRepository from '../../src/repositories/UserRepository';
+import * as UserRepository from '../../repositories/UserRepository';
 const LocalStrategy = strategy.Strategy;
 
 export default passport => {

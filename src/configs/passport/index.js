@@ -1,4 +1,4 @@
-import { findUserById } from '../../src/repositories/UserRepository';
+import { findUserById } from '../../repositories/UserRepository';
 import local from './local';
 import * as oauth from './oauth';
 

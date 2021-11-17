@@ -1,6 +1,6 @@
 import GoogleStrategy from 'passport-google-oauth20';
 import KakaoStrategy from 'passport-kakao';
-import * as UserRepository from '../../src/repositories/UserRepository';
+import * as UserRepository from '../../repositories/UserRepository';
 import env from '../index';
 
 export const kakaoOAuth = passport => {

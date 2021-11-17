@@ -1,6 +1,6 @@
 import express from 'express';
-import * as Auth from '../../middleware/auth';
-import * as Transfer from '../../middleware/findPassword';
+import * as Auth from '../middleware/auth';
+import * as Transfer from '../middleware/findPassword';
 import * as OauthService from '../services/OauthService';
 import * as UserService from '../services/UserService';
 

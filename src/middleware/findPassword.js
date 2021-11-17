@@ -2,10 +2,10 @@ import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import randomstring from 'randomstring';
 import env from '../configs';
-import * as UserRepository from '../src/repositories/UserRepository';
+import * as UserRepository from '../repositories/UserRepository';
 // nodemailer Transport 생성
 
-export const transferPassword = async (req, res, next) => {
+export const transferPassword = async (req, res) => {
   try {
     console.log(req.body);
     const user = await UserRepository.findUserByEmail(req.body.email);

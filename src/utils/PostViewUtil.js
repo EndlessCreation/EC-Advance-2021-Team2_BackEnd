@@ -1,4 +1,4 @@
-import { getTagById } from '../src/repositories/TagRepository';
+import { getTagById } from '../repositories/TagRepository';
 
 export const checkUserHasKeyword = async (tag_id, user_id) => {
   try {

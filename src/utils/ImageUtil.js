@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import algolia from '../configs/algolia';
-import * as ImageRepository from '../src/repositories/ImageRepository';
-import { createImage } from '../src/repositories/ImageRepository';
+import * as ImageRepository from '../repositories/ImageRepository';
+import { createImage } from '../repositories/ImageRepository';
 
 export const deleteImageFromServer = async image => {
   try {

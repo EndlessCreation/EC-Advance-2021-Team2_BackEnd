@@ -1,7 +1,7 @@
-import * as PostViewUtil from '../../utils/PostViewUtil';
 import * as KeywordRepository from '../repositories/KeywordRepository';
 import * as TagKeywordViewRepository from '../repositories/TagKeywordViewRepository';
 import * as TagRepository from '../repositories/TagRepository';
+import * as PostViewUtil from '../utils/PostViewUtil';
 export const getUserTag = async (req, res, next) => {
   try {
     const tag = await TagKeywordViewRepository.getUserTag(req.session.passport.user.id);

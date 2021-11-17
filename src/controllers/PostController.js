@@ -1,6 +1,6 @@
 import express from 'express';
-import * as Auth from '../../middleware/auth';
-import UploadImage from '../../middleware/imageUpload';
+import * as Auth from '../middleware/auth';
+import UploadImage from '../middleware/imageUpload';
 import { createKeywordIfNotExist } from '../services/KeywordService';
 import * as PostService from '../services/PostService';
 import { createTagIfNotExist } from '../services/TagService';
