@@ -4,11 +4,8 @@ import * as PostViewService from '../services/PostViewService';
 import * as TagKeywordViewService from '../services/TagKeywordViewService';
 const router = express.Router();
 
-//임시로 모든 포스트 보려고 만듬.
-router.get('/', PostViewService.getAllPost);
-
 //여기부터
-router.get('/userpost', Auth.isLoggined, PostViewService.getUserPost);
+router.get('/', Auth.isLoggined, PostViewService.getUserPost);
 router.get('/one/:post_id', PostViewService.getPost);
 router.get('/recent', Auth.isLoggined, PostViewService.getRecentPost);
 
