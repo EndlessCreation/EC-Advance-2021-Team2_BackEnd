@@ -52,7 +52,6 @@ export const getUserKeyword = async (req, res, next) => {
   try {
     const user = req.session.passport.user;
     const isExist = await KeywordRepository.getUserTagKeyword(user.id);
-    console.log(isExist);
     if (!isExist) {
       return res.status(400).send('잘못된 요청입니다.');
     } else return res.status(200).send(isExist);

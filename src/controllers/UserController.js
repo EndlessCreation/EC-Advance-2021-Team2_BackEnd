@@ -29,4 +29,7 @@ router.get('/get_user', Auth.isLoggined, UserService.getUserInfo);
 router.post('/find/email', Auth.isNotLoggined, UserService.findUserAccount);
 router.post('/find/password', Auth.isNotLoggined, UserService.findUserPassword, Transfer.transferPassword);
 router.post('/find/changepw', Auth.isLoggined, UserService.changeUserPassword);
+
+//유저 삭제
+router.delete('/delete/:user_id', Auth.isLoggined, Auth.checkUserById, UserService.deleteUser);
 export default router;

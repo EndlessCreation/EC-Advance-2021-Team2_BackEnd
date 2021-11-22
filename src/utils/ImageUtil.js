@@ -6,7 +6,7 @@ import { createImage } from '../repositories/ImageRepository';
 
 export const deleteImageFromServer = async image => {
   try {
-    if (image !== null) fs.unlinkSync(path.join(__dirname, `../images/${image.path}`));
+    if (image !== null) fs.unlinkSync(path.join(__dirname, `../../images/${image.path}`));
     return true;
   } catch (err) {
     console.error(err);
@@ -23,10 +23,10 @@ export const deleteImageFromDB = async image => {
   }
 };
 
-export const updateImageToDB = async (image, data) => {
+export const updateImageToDB = async (post, data) => {
   try {
-    if (image !== undefined) return await ImageRepository.updateImage(image.id, data);
-    return await ImageRepository.createImage(data.post_id, data.path);
+    if (post.image !== undefined) return await ImageRepository.updateImage(post.image.id, data);
+    return await ImageRepository.createImage(post, data.path);
   } catch (err) {
     console.error(err);
   }
@@ -37,7 +37,7 @@ export const createImageWithServerAndAlgolia = async (imageFile, post) => {
     if (imageFile === undefined) {
       post.image = null;
     } else {
-      const image = await createImage(post.id, imageFile.filename);
+      const image = await createImage(post, imageFile.filename);
       post.image = image;
     }
     post.objectID = post.id;
@@ -55,7 +55,7 @@ export const updateImageWithServerAndAlgolia = async (imageFile, post) => {
       await deleteImageFromDB(post.image);
       post.image = null;
     } else {
-      const editedImage = await updateImageToDB(post.image, { path: imageFile.filename, post_id: post.id });
+      const editedImage = await updateImageToDB(post, { path: imageFile.filename, post_id: post.id });
       post.image = editedImage;
     }
     post.objectID = post.id;

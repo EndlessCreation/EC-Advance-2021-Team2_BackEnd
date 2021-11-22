@@ -23,6 +23,7 @@ model User {
   posts           Post[]
 
   @@map("user")
+  Image Image[]
 }
 
 model Post {
@@ -51,6 +52,8 @@ model Image {
   updateAt  DateTime @updatedAt
   postImage Post?    @relation(fields: [post_id], references: [id])
   post_id   Int?     @unique
+  user      User?    @relation(fields: [user_id], references: id)
+  user_id   Int
 
   @@map("image")
 }

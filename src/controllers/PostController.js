@@ -13,4 +13,5 @@ router.post('/upload', Auth.isLoggined, UploadImage.single('file'), createTagIfN
 router.post('/edit', Auth.isLoggined, UploadImage.single('file'), createTagIfNotExist, createKeywordIfNotExist, PostService.editPost);
 router.post('/delete', Auth.isLoggined, PostService.deletePost);
 router.post('/favorite', Auth.isLoggined, PostService.updatePostAboutFavorite);
+
 export default router;

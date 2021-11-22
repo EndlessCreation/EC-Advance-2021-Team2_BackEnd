@@ -1,14 +1,19 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-export const createImage = async (post_id, path) => {
+export const createImage = async (postData, path) => {
   try {
     return prisma.image.create({
       data: {
         path,
         postImage: {
           connect: {
-            id: post_id,
+            id: postData.id,
+          },
+        },
+        user: {
+          connect: {
+            id: postData.user_id,
           },
         },
       },
@@ -41,6 +46,22 @@ export const deleteImage = async image_id => {
     return await prisma.image.delete({
       where: {
         id: image_id,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getImageByUserId = async user_id => {
+  try {
+    return await prisma.image.findMany({
+      where: {
+        user_id,
+      },
+      select: {
+        id: true,
+        path: true,
       },
     });
   } catch (err) {

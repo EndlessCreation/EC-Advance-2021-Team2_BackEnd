@@ -35,8 +35,7 @@ export const editPost = async (req, res, next) => {
     //없는 포스트에 요청시 오류.
     if (toEdit === null || toEdit === undefined) return res.status(400).send('이미 삭제된 게시글이거나 없는 게시글입니다.');
     //기존이미지삭제
-    console.log(toEdit);
-    const isDeleted = deleteImageFromServer(toEdit.image);
+    const isDeleted = await deleteImageFromServer(toEdit.image);
     const post = await PostUtil.updatePost(req.body, req.session.passport.user.id);
     const isUpdated = await ImageUtil.updateImageWithServerAndAlgolia(req.file, post);
 
@@ -54,7 +53,7 @@ export const editPost = async (req, res, next) => {
 export const deletePost = async (req, res, next) => {
   try {
     const post = await PostRepository.getPost(req.body.post_id);
-    console.log(post);
+    if (!post) return res.status(400).send('이미 삭제된 게시글이거나 없는 게시글입니다.');
     deleteImageFromServer(post.image);
     await PostRepository.deletePost(parseInt(req.body.post_id));
     const toDelete = await PostRepository.getPost(req.body.post_id);
@@ -73,7 +72,6 @@ export const deletePost = async (req, res, next) => {
 export const updatePostAboutFavorite = async (req, res, next) => {
   try {
     const post = await PostRepository.getPost(req.body.post_id);
-    console.log(post);
     req.body.isFavorite = !post.isFavorite;
     const updatedPost = await PostRepository.updatePostAboutFavorite(req.body);
     if (!updatedPost) return res.status(400).send('즐겨찾기 설정도중 문제가 발생하였습니다.');

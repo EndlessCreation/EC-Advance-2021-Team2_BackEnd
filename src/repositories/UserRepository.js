@@ -123,3 +123,11 @@ export const changeUserPassword = async (id, password) => {
     console.error(err);
   }
 };
+
+export const deleteUser = async user_id => {
+  try {
+    return await prisma.$queryRaw(`DELETE FROM user WHERE user.id=${user_id}`);
+  } catch (err) {
+    console.error(err);
+  }
+};

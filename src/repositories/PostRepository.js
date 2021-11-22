@@ -131,3 +131,11 @@ export const updatePostAboutFavorite = async data => {
     console.error(err);
   }
 };
+
+export const getPostIdByUserId = async user_id => {
+  try {
+    return await prisma.$queryRaw(`SELECT post.id FROM post WHERE user_id=${user_id}`);
+  } catch (err) {
+    console.error(err);
+  }
+};

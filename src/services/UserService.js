@@ -1,7 +1,10 @@
 import bcrypt from 'bcrypt';
 import passport from 'passport';
+import algolia from '../configs/algolia';
+import * as ImageRepository from '../repositories/ImageRepository';
+import * as PostRepository from '../repositories/PostRepository';
 import * as UserRepository from '../repositories/UserRepository';
-
+import { deleteImageFromServer } from '../utils/ImageUtil';
 /*
 회원가입 서비스로직.
 */
@@ -227,4 +230,28 @@ export const Logout = (req, res, next) => {
       return res.clearCookie('connect.sid').status(200).send(req.session);
     }
   });
+};
+
+//req.params.user_id 필요.
+//이미지, algolia db에 저장된 데이터목록 삭제해야함.
+export const deleteUser = async (req, res, next) => {
+  try {
+    const userId = parseInt(req.params.user_id);
+    const images = await ImageRepository.getImageByUserId(userId);
+    const posts = await PostRepository.getPostIdByUserId(userId);
+    const arr = new Array();
+    posts.map(element => {
+      arr.push(element.id);
+    });
+    await algolia.deleteObjects(arr);
+    await images.map(element => {
+      deleteImageFromServer(element);
+    });
+    const isDeleted = await UserRepository.deleteUser(userId);
+    if (isDeleted) return res.clearCookie('connect.sid').status(200).send('회원탈퇴가 완료되었습니다.');
+    return res.status(400).send('삭제도중 문제가 발생하였습니다.');
+  } catch (err) {
+    console.error(err);
+    next();
+  }
 };
