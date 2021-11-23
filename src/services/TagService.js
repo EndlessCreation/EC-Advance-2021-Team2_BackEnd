@@ -17,8 +17,7 @@ export const createTag = async (req, res, next) => {
 
 export const editTag = async (req, res, next) => {
   try {
-    const user = req.session.passport.user;
-    const newTag = await TagRepository.updateTag(req.body, user.id);
+    const newTag = await TagRepository.updateTag(req.body);
     if (!newTag) {
       res.status(400).send('중복된 tag입니다.');
     } else {
@@ -57,6 +56,20 @@ export const createTagIfNotExist = async (req, res, next) => {
     } else {
       req.body.tag_id = tag.id;
       next();
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+export const editTagColor = async (req, res, next) => {
+  try {
+    const newTag = await TagRepository.updateTagColor(req.body);
+    if (!newTag) {
+      res.status(400).send('tag 색상 수정중 문제가 발생하였습니다.');
+    } else {
+      res.status(200).send(newTag);
     }
   } catch (err) {
     console.error(err);

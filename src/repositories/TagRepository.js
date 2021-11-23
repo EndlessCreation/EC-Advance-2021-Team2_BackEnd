@@ -71,3 +71,18 @@ export const getTagByAuthorAndName = async (data, user_id) => {
     console.error(err);
   }
 };
+
+export const updateTagColor = async data => {
+  try {
+    return await prisma.tag.update({
+      where: {
+        id: data.tag_id,
+      },
+      data: {
+        tag_color: data.tag_color,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
