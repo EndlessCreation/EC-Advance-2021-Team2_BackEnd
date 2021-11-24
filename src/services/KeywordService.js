@@ -78,3 +78,17 @@ export const createKeywordIfNotExist = async (req, res, next) => {
     next(err);
   }
 };
+
+export const editKeywordColor = async (req, res, next) => {
+  try {
+    const newTag = await KeywordRepository.updateKeywordColor(req.body);
+    if (!newTag) {
+      return res.status(400).send('키워드 색상 수정 도중 문제가 발생하였습니다.');
+    } else {
+      return res.status(200).send(newTag);
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};

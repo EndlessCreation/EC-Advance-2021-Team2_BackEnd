@@ -82,3 +82,17 @@ export const getKeywordById = async keyword_id => {
     console.error(err);
   }
 };
+export const updateKeywordColor = async data => {
+  try {
+    return await prisma.keyword.update({
+      where: {
+        id: data.keyword_id,
+      },
+      data: {
+        keyword_color: data.keyword_color,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
