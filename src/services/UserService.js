@@ -255,3 +255,14 @@ export const deleteUser = async (req, res, next) => {
     next();
   }
 };
+
+export const checkPassword = async (req, res) => {
+  try {
+    const user = await UserRepository.findUserById(req.session.passport.user.id);
+    const result = await bcrypt.compare(req.body.password, user.password);
+    return res.status(200).send(result);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send('비밀번호 변경도중 에러가 발생하였습니다.');
+  }
+};
