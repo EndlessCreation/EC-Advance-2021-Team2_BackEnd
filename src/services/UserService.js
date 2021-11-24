@@ -156,23 +156,23 @@ export const changeUserPassword = async (req, res, next) => {
   try {
     if (!req.body) res.status(400).send('Error.');
     else {
-      const user = await UserRepository.findUserById(req.body.id);
+      const user = await UserRepository.findUserById(req.session.passport.user.id);
       //유저가 입력한 비밀번호가 현재 비밀번호와 일치하는지
       const result = await bcrypt.compare(req.body.existing_password, user.password);
       if (!result) {
-        res.send('현재 비밀번호가 일치하지 않습니다.');
+        return res.send('현재 비밀번호가 일치하지 않습니다.');
       }
       //비밀번호를 이전과 동일하게 설정한 경우.
       const isSame = await bcrypt.compare(req.body.new_password, user.password);
       if (isSame) {
-        res.send('비밀번호는 이전과 다르게 해주세요.');
+        return res.send('비밀번호는 이전과 다르게 해주세요.');
       } else if (req.body.check_password !== req.body.new_password) {
         //바꿀 비밀번호가 다르게 적힌경우
-        res.send('변경할 비밀번호가 일치하지 않습니다. 다시 확인해주세요');
+        return res.send('변경할 비밀번호가 일치하지 않습니다. 다시 확인해주세요');
       } else {
         req.body.new_password = await bcrypt.hash(req.body.new_password, 12);
-        await UserRepository.changeUserPassword(req.body.id, req.body.new_password);
-        res.status(200).send(true);
+        await UserRepository.changeUserPassword(req.session.passport.user.id, req.body.new_password);
+        return res.status(200).send(true);
       }
     }
   } catch (err) {
