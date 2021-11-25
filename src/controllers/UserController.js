@@ -31,5 +31,5 @@ router.post('/find/password', Auth.isNotLoggined, UserService.findUserPassword, 
 router.post('/find/changepw', Auth.isLoggined, UserService.changeUserPassword);
 router.post('/check/password', Auth.isLoggined, UserService.checkPassword);
 //유저 삭제
-router.delete('/delete/:user_id', Auth.isLoggined, Auth.checkUserById, UserService.deleteUser);
+router.delete('/delete/', Auth.isLoggined, UserService.deleteUser);
 export default router;

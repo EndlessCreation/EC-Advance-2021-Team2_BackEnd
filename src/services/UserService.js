@@ -236,7 +236,7 @@ export const Logout = (req, res, next) => {
 //이미지, algolia db에 저장된 데이터목록 삭제해야함.
 export const deleteUser = async (req, res, next) => {
   try {
-    const userId = parseInt(req.params.user_id);
+    const userId = parseInt(req.session.passport.user.id);
     const images = await ImageRepository.getImageByUserId(userId);
     const posts = await PostRepository.getPostIdByUserId(userId);
     const arr = new Array();
