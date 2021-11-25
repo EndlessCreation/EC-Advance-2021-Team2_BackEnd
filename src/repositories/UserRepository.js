@@ -77,7 +77,6 @@ export const findUserById_getInfo = async id => {
         email: true,
         name: true,
         nickname: true,
-        posts: true,
       },
     });
   } catch (err) {
