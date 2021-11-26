@@ -38,9 +38,9 @@ export const deleteKeyword = async (req, res, next) => {
   try {
     const isDeleted = await KeywordRepository.deleteKeyword(req.body.keyword_id);
     if (!isDeleted) {
-      return res.status(400).send('잘못된 요청입니다(delete).');
+      return res.status(400).send('잘못된 요청입니다.');
     } else {
-      return res.status(200).send(isDeleted.keyword_name + ' 가 삭제되었습니다.');
+      return res.status(200).send('키워드가 삭제되었습니다.');
     }
   } catch (err) {
     console.error(err);

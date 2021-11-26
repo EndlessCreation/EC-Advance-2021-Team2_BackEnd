@@ -35,11 +35,7 @@ export const updateTag = async data => {
 };
 export const deleteTag = async tag_id => {
   try {
-    return await prisma.tag.delete({
-      where: {
-        id: tag_id,
-      },
-    });
+    return await prisma.$queryRaw(`DELETE FROM tag WHERE tag.id=${tag_id}`);
   } catch (err) {
     console.error(err);
   }

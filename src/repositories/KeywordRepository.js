@@ -46,11 +46,7 @@ export const updateKeyword = async data => {
 
 export const deleteKeyword = async keyword_id => {
   try {
-    return await prisma.keyword.delete({
-      where: {
-        id: keyword_id,
-      },
-    });
+    return await prisma.$queryRaw(`DELETE FROM keyword WHERE keyword.id=${keyword_id}`);
   } catch (err) {
     console.error(err);
   }
