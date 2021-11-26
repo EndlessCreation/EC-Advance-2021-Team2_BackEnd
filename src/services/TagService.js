@@ -70,6 +70,7 @@ export const editTagColor = async (req, res, next) => {
     if (!newTag) {
       res.status(400).send('tag 색상 수정중 문제가 발생하였습니다.');
     } else {
+      await AlgoliaUtil.updateAlgoliaTag(newTag);
       res.status(200).send(newTag);
     }
   } catch (err) {

@@ -1,5 +1,6 @@
 import * as KeywordRepository from '../repositories/KeywordRepository';
 import { getTagById } from '../repositories/TagRepository';
+import * as AlgoliaUtil from '../utils/algoliaUtil';
 export const createKeyword = async (req, res, next) => {
   try {
     const user = req.session.passport.user;
@@ -23,6 +24,7 @@ export const editKeyword = async (req, res, next) => {
     if (!newTag) {
       return res.status(400).send('키워드 수정 도중 문제가 발생하였습니다.');
     } else {
+      await AlgoliaUtil.updateAlgoliaKeyword(newTag);
       return res.status(200).send(newTag);
     }
   } catch (err) {
@@ -82,6 +84,7 @@ export const createKeywordIfNotExist = async (req, res, next) => {
 export const editKeywordColor = async (req, res, next) => {
   try {
     const newTag = await KeywordRepository.updateKeywordColor(req.body);
+    await AlgoliaUtil.updateAlgoliaKeyword(newTag);
     if (!newTag) {
       return res.status(400).send('키워드 색상 수정 도중 문제가 발생하였습니다.');
     } else {

@@ -76,11 +76,11 @@ export const updateAlgoliaTag = async revisedTag => {
 };
 export const updateAlgoliaKeyword = async revisedKeyword => {
   try {
-    const posts = await TagKeywordViewRepository.getTagByIdwithKeywordAndPost(revisedKeyword.id);
-    if (posts.keyword !== null)
-      posts.keyword.map(async element => {
+    const posts = await TagKeywordViewRepository.getKeywordInTagWithPost(revisedKeyword.id);
+    if (posts.post !== null)
+      posts.post.map(async element => {
         element.objectID = element.id;
-        element.keyword = { keyword: revisedKeyword.keyword_name, tag_color: revisedKeyword.keyword_color };
+        element.keyword = { keyword: revisedKeyword.keyword_name, keyword_color: revisedKeyword.keyword_color };
         await algolia.partialUpdateObject(element);
       });
   } catch (err) {
