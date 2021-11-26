@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import algolia from '../configs/algolia';
 import * as ImageRepository from '../repositories/ImageRepository';
 import { createImage } from '../repositories/ImageRepository';
 
@@ -16,7 +15,7 @@ export const deleteImageFromServer = async image => {
 
 export const deleteImageFromDB = async image => {
   try {
-    if (image !== undefined) return await ImageRepository.deleteImage(image.id);
+    if (image !== null) return await ImageRepository.deleteImage(image.id);
     else return true;
   } catch (err) {
     console.error(err);
@@ -31,38 +30,27 @@ export const updateImageToDB = async (post, data) => {
     console.error(err);
   }
 };
-
-export const createImageWithServerAndAlgolia = async (imageFile, post) => {
+export const createImageIfExist = async (imageFile, post) => {
   try {
     if (imageFile === undefined) {
-      post.image = null;
+      return null;
     } else {
       const image = await createImage(post, imageFile.filename);
-      post.image = image;
+      return image;
     }
-    post.objectID = post.id;
-    await algolia.saveObject(post, { autoGenerateObjectIDIfNotExist: true });
-    return true;
   } catch (err) {
     console.error(err);
-    return false;
   }
 };
-
-export const updateImageWithServerAndAlgolia = async (imageFile, post) => {
+export const updateImageIfExist = async (imageFile, post) => {
   try {
     if (imageFile === undefined) {
-      await deleteImageFromDB(post.image);
-      post.image = null;
+      return null;
     } else {
       const editedImage = await updateImageToDB(post, { path: imageFile.filename, post_id: post.id });
-      post.image = editedImage;
+      return editedImage;
     }
-    post.objectID = post.id;
-    await algolia.partialUpdateObject(post);
-    return true;
   } catch (err) {
     console.error(err);
-    return false;
   }
 };

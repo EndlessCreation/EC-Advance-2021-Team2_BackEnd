@@ -1,7 +1,7 @@
 import algolia from '../configs/algolia';
 import * as PostRepository from '../repositories/PostRepository';
-import * as ImageUtil from '../utils/ImageUtil';
-import { deleteImageFromServer } from '../utils/ImageUtil';
+import * as AlgoliaUtil from '../utils/algoliaUtil';
+import { deleteImageFromDB, deleteImageFromServer } from '../utils/ImageUtil';
 import * as PostUtil from '../utils/PostUitl';
 export const writePost = async (req, res, next) => {
   try {
@@ -10,7 +10,7 @@ export const writePost = async (req, res, next) => {
     req.body.keyword_id = parseInt(req.body.keyword_id);
     const post = await PostUtil.createPost(req.body, req.session.passport.user.id);
 
-    const isConnected = await ImageUtil.createImageWithServerAndAlgolia(req.file, post);
+    const isConnected = await AlgoliaUtil.createPostWithServerAndAlgolia(req.file, post);
 
     //게시글 업로드 오류발생시.
     if (!post || !isConnected) return res.status(400).send('게시글을 올리는 도중 오류가 발생하였습니다.');
@@ -35,11 +35,12 @@ export const editPost = async (req, res, next) => {
     //없는 포스트에 요청시 오류.
     if (toEdit === null || toEdit === undefined) return res.status(400).send('이미 삭제된 게시글이거나 없는 게시글입니다.');
     //기존이미지삭제
-    const isDeleted = await deleteImageFromServer(toEdit.image);
+    const deleteServer = await deleteImageFromServer(toEdit.image);
+    await deleteImageFromDB(toEdit.image);
     const post = await PostUtil.updatePost(req.body, req.session.passport.user.id);
-    const isUpdated = await ImageUtil.updateImageWithServerAndAlgolia(req.file, post);
+    const isUpdated = await AlgoliaUtil.updatePostWithServerAndAlgolia(req.file, post);
 
-    if (!post || !isUpdated || !isDeleted) return res.status(400).send('게시글 수정 도중 문제가 발생하였습니다.');
+    if (!post || !isUpdated || !deleteServer) return res.status(400).send('게시글 수정 도중 문제가 발생하였습니다.');
 
     return res.status(200).send(post);
 
@@ -54,7 +55,7 @@ export const deletePost = async (req, res, next) => {
   try {
     const post = await PostRepository.getPost(req.body.post_id);
     if (!post) return res.status(400).send('이미 삭제된 게시글이거나 없는 게시글입니다.');
-    deleteImageFromServer(post.image);
+    await deleteImageFromServer(post.image);
     await PostRepository.deletePost(parseInt(req.body.post_id));
     const toDelete = await PostRepository.getPost(req.body.post_id);
     if (toDelete) {
