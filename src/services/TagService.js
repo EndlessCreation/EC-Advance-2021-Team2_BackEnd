@@ -21,6 +21,7 @@ export const editTag = async (req, res, next) => {
     if (!newTag) {
       res.status(400).send('중복된 tag입니다.');
     } else {
+      await AlgoliaUtil.updateAlgoliaTag(newTag);
       res.status(200).send(newTag);
     }
   } catch (err) {

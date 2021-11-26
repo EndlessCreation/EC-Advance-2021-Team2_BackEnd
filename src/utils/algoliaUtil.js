@@ -12,7 +12,7 @@ export const createPostWithServerAndAlgolia = async (imageFile, post) => {
       post.tag = { tag: tag.tag, tag_color: tag.tag_color };
       if (post.keyword_id !== null) {
         keyword = await KeywordRepository.getKeywordById(post.keyword_id);
-        post.keyword = { keyword: keyword.keyword, keyword_color: keyword.keyword_color };
+        post.keyword = { keyword: keyword.keyword_name, keyword_color: keyword.keyword_color };
       } else {
         post.keyword = null;
       }
@@ -39,14 +39,14 @@ export const updatePostWithServerAndAlgolia = async (imageFile, post) => {
       post.tag = { tag: tag.tag, tag_color: tag.tag_color };
       if (post.keyword_id !== null) {
         keyword = await KeywordRepository.getKeywordById(post.keyword_id);
-        post.keyword = { keyword: keyword.keyword, keyword_color: keyword.keyword_color };
+        post.keyword = { keyword: keyword.keyword_name, keyword_color: keyword.keyword_color };
       } else {
         post.keyword = null;
       }
     } else {
       post.tag = null;
+      post.keyword = null;
     }
-
     post.objectID = post.id;
     await algolia.partialUpdateObject(post);
     return true;
@@ -55,12 +55,46 @@ export const updatePostWithServerAndAlgolia = async (imageFile, post) => {
     return false;
   }
 };
+export const updateAlgoliaTag = async revisedTag => {
+  try {
+    const posts = await TagKeywordViewRepository.getTagByIdwithKeywordAndPost(revisedTag.id);
+    if (posts.keyword !== null)
+      posts.keyword.map(async element => {
+        element.objectID = element.id;
+        element.tag = { tag: revisedTag.tag, tag_color: revisedTag.tag_color };
+        await algolia.partialUpdateObject(element);
+      });
+    if (posts.post !== null)
+      posts.post.map(async element => {
+        element.objectID = element.id;
+        element.tag = { tag: revisedTag.tag, tag_color: revisedTag.tag_color };
+        await algolia.partialUpdateObject(element);
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const updateAlgoliaKeyword = async revisedKeyword => {
+  try {
+    const posts = await TagKeywordViewRepository.getTagByIdwithKeywordAndPost(revisedKeyword.id);
+    if (posts.keyword !== null)
+      posts.keyword.map(async element => {
+        element.objectID = element.id;
+        element.keyword = { keyword: revisedKeyword.keyword_name, tag_color: revisedKeyword.keyword_color };
+        await algolia.partialUpdateObject(element);
+      });
+  } catch (err) {
+    console.error(err);
+  }
+};
 export const deleteAlgoliaTag = async tag_id => {
   try {
     const posts = await TagKeywordViewRepository.getTagByIdwithKeywordAndPost(tag_id);
     if (posts.keyword !== null)
       posts.keyword.map(async element => {
         element.objectID = element.id;
+        element.tag_id = null;
+        element.keyword_id = null;
         element.tag = null;
         element.keyword = null;
         await algolia.partialUpdateObject(element);
@@ -68,6 +102,8 @@ export const deleteAlgoliaTag = async tag_id => {
     if (posts.post !== null)
       posts.post.map(async element => {
         element.objectID = element.id;
+        element.tag_id = null;
+        element.keyword_id = null;
         element.tag = null;
         element.keyword = null;
         await algolia.partialUpdateObject(element);
